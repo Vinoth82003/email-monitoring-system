@@ -1,0 +1,6 @@
+# removing node modules
+node_modules/
+
+#removing .env
+
+.env
