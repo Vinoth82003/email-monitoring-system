@@ -57,12 +57,19 @@ cd email-monitoring-system
 3. Install dependencies:
 
 ```bash
-npm install
+npm install dotenv express node-imap
 ```
 
 4. Set up environment variables:
 
-Create a `.env` file in the root directory and add the necessary environment variables, such as email service credentials.
+Create a `.env` file in the root directory and add the necessary environment variables:
+
+```
+EMAIL=your_email@example.com
+PASS=your_email_password
+```
+
+Replace `your_email@example.com` with your email address and `your_email_password` with your email password.
 
 5. Start the server:
 
