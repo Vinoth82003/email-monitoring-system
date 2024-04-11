@@ -96,7 +96,7 @@ The Email Monitoring System is built using the following technologies:
 - CSS
 - JavaScript
 - Node.js
-- IMAP
+- Node-IMAP
 - MongoDB
 - React
 
