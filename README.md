@@ -48,6 +48,8 @@ To clone and use the Email Monitoring System, follow these steps:
 git clone https://github.com/Vinoth82003/email-monitoring-system.git
 ```
 
+````
+
 2. Navigate to the project directory:
 
 ```bash
@@ -79,6 +81,18 @@ npm start
 
 The system will be accessible at the specified port.
 
+## Technology Stacks
+
+The Email Monitoring System is built using the following technologies:
+
+- HTML
+- CSS
+- JavaScript
+- Node.js
+- IMAP
+- MongoDB
+- React
+
 ## Requirements
 
 The project requires the following dependencies:
@@ -96,3 +110,4 @@ For any questions or inquiries, feel free to contact Vinoth at vinothg0618@gmail
 ## License
 
 The Email Monitoring System is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+````
