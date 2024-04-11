@@ -120,7 +120,7 @@
 
 .time_box {
   background: #f1f1f1;
-  width: 120px;
+  width: 150px;
   height: 50px;
   display: flex;
   align-items: center;
@@ -163,4 +163,5 @@
   top: 18px;
   animation: move_top 0.5s ease-in forwards;
   background: #f1f1f1;
+  width: 20px;
 }

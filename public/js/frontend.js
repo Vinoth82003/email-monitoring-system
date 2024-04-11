@@ -24,20 +24,64 @@
 // setRandomBackgroundColors();
 
 let time_box = document.querySelector(".time_box");
+let median = document.getElementById("median");
 
 let i = 0;
+let min = 0;
+let hrs = 0;
+
+// Function to convert 24-hour format to 12-hour format
+function format12Hour(hour) {
+  return hour % 12 || 12;
+}
+
+let now = new Date();
+let currentHour = now.getHours();
+let currentMinute = now.getMinutes();
+let currentSecond = now.getSeconds();
+
+// Display current time
+document.querySelector(".hr.active").innerHTML =
+  format12Hour(currentHour) > 12
+    ? format12Hour(currentHour)
+    : "0" + format12Hour(currentHour);
+document.querySelector(".min.active").innerHTML =
+  currentMinute < 10 ? "0" + currentMinute : currentMinute;
+document.querySelector(".sec.active").innerHTML =
+  currentSecond < 10 ? "0" + currentSecond : currentSecond;
+median.innerHTML = currentHour >= 12 ? "PM" : "AM";
 setInterval(() => {
-  i++;
-  let all_p = time_box.querySelectorAll("p");
-  all_p.forEach((p) => {
+  let now = new Date();
+  let secs = now.getSeconds();
+  let mins = now.getMinutes();
+  let hours = now.getHours();
+  let p = time_box.children[2];
+  let span = document.createElement("span");
+  span.className = "active";
+  span.innerHTML = secs < 10 ? "0" + secs : secs;
+  p.firstElementChild.remove();
+  p.appendChild(span);
+
+  if (secs === 0) {
+    min = mins;
+    let p = time_box.children[1];
     let span = document.createElement("span");
     span.className = "active";
-    span.innerHTML = i;
+    span.innerHTML = min < 10 ? "0" + min : min;
     p.firstElementChild.remove();
     p.appendChild(span);
-    if (i == 60) {
-      i = 0;
+
+    if (min === 0) {
+      hrs = hours;
+      let p = time_box.children[0];
+      let span = document.createElement("span");
+      span.className = "active";
+      span.innerHTML = format12Hour(hrs);
+      p.firstElementChild.remove();
+      p.appendChild(span);
+
+      // Update AM/PM indicator
+      median.innerHTML = hrs >= 12 ? "PM" : "AM";
     }
-    // p.children[1].classList.toggle("active");
-  });
+  }
 }, 1000);
