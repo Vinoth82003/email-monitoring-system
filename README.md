@@ -108,7 +108,3 @@ For any questions or inquiries, feel free to contact Vinoth at vinothg0618@gmail
 ## License
 
 The Email Monitoring System is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
-
-```
-
-```
