@@ -42,7 +42,7 @@ let currentSecond = now.getSeconds();
 
 // Display current time
 document.querySelector(".hr.active").innerHTML =
-  format12Hour(currentHour) > 12
+  format12Hour(currentHour) >= 10
     ? format12Hour(currentHour)
     : "0" + format12Hour(currentHour);
 document.querySelector(".min.active").innerHTML =
@@ -85,3 +85,11 @@ setInterval(() => {
     }
   }
 }, 1000);
+
+let toggleBtn = document.querySelector(".inner_bar");
+let sidemenu = document.querySelector(".sidemenu");
+
+toggleBtn.addEventListener("click",()=>{
+  toggleBtn.classList.toggle("active")
+  sidemenu.classList.toggle("active");
+})

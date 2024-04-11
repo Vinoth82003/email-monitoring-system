@@ -6,13 +6,12 @@
     <title>Email Client</title>
     <link rel="stylesheet" href="css/style.css" />
     <link rel="shortcut icon" href="img/logo.png" type="image/x-icon" />
-    <style>
-      .output {
-        display: flex;
-        justify-content: space-between;
-        gap: 20px;
-      }
-    </style>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
   </head>
   <body>
     <!-- <ul class="color_list grid gird-to"> -->
@@ -48,7 +47,6 @@
         </div>
         <div class="right_nav">
           <div class="timer">
-            <div class="icon"></div>
             <div class="time_box">
               <p class="hrs">
                 <span class="hr">0</span>
@@ -69,6 +67,62 @@
           </div>
         </div>
       </div>
+      <aside class="sidemenu">
+        <div class="toggle_bar">
+          <div class="inner_bar">
+            <i class="fas fa-bars"></i>
+            <i class="fas fa-times"></i>
+          </div>
+        </div>
+        <ul class="side_bar">
+          <li class="side_menu">
+            <div class="inner_menu">
+              <div class="icon"><i class="fas fa-inbox"></i></div>
+              <div class="text">Today's Mails</div>
+            </div>
+          </li>
+          <li class="side_menu">
+            <div class="inner_menu">
+              <div class="icon"><i class="fas fa-mail-bulk"></i></div>
+              <div class="text">All Contacts</div>
+            </div>
+          </li>
+          <li class="side_menu">
+            <div class="inner_menu">
+              <div class="icon"><i class="fas fa-at"></i></div>
+              <div class="text">important mails</div>
+            </div>
+          </li>
+          <li class="side_menu">
+            <div class="inner_menu">
+              <div class="icon"><i class="fas fa-user-plus"></i></div>
+              <div class="text">add important mails</div>
+            </div>
+          </li>
+          <li class="side_menu">
+            <div class="inner_menu">
+              <div class="icon"><i class="fas fa-sign-out-alt"></i></div>
+              <div class="text">logout</div>
+            </div>
+          </li>
+        </ul>
+      </aside>
+      <main class="main">
+        <div class="inner_main">
+          <header class="section_header">
+            <div class="head_left">
+              <p class="title">All Emails</p>
+            </div>
+            <div class="head_right">
+              <div class="count">
+                total:
+                <p class="total">04</p>
+              </div>
+            </div>
+          </header>
+          <section class="section all_mails"></section>
+        </div>
+      </main>
     </div>
     <script src="js/frontend.js"></script>
   </body>
