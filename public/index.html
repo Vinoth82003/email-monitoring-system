@@ -4,6 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Email Client</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="shortcut icon" href="img/logo.png" type="image/x-icon" />
     <style>
       .output {
         display: flex;
@@ -13,9 +15,19 @@
     </style>
   </head>
   <body>
+    <!-- <ul class="color_list grid gird-to"> -->
+    <!-- <li class="card">
+        <div class="colors">v</div>
+        <div class="user_detials">
+          <div class="name">Name :</div>
+          <div class="email">Email :</div>
+        </div>
+      </li> -->
+    <!-- </ul>
     <h1>Email Client</h1>
     <button onclick="fetchContacts()">Fetch Contacts</button>
     <button onclick="subscribeToNewEmails()">Subscribe to New Emails</button>
+    <button onclick="fetchTodaysEmails()">Fetch Today's Emails</button>
     <br />
     <div id="newEmailContainer"></div>
     <br />
@@ -24,117 +36,39 @@
       <ul id="from"></ul>
       <h2>To: <span class="lenght-t"></span></h2>
       <ul id="to"></ul>
+    </div> -->
+    <!-- <script src="js/script.js"></script> -->
+    <div class="home_page">
+      <div class="nav_bar">
+        <div class="left_nav">
+          <div class="logo">
+            <img src="img/logo.png" alt="logo" />
+          </div>
+          <h1 class="brand_name">SEMS(Smart Email Monitoring System)</h1>
+        </div>
+        <div class="right_nav">
+          <div class="timer">
+            <div class="icon"></div>
+            <div class="time_box">
+              <p class="hrs">
+                <span class="hr">0</span>
+                <span class="hr active">0</span>
+              </p>
+              :
+              <p class="mins">
+                <span class="min">0</span>
+                <span class="min active">0</span>
+              </p>
+              :
+              <p class="secs">
+                <span class="sec">0</span>
+                <span class="sec active">0</span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    <script>
-      let all_from_emails = [];
-      let all_to_emails = [];
-      let uniqueFrom = [];
-      let uniqueTo = [];
-      let uniqueAll = [];
-
-      function fetchContacts() {
-        fetch("/fetchContacts")
-          .then((response) => response.json())
-          .then((contacts) => {
-            all_from_emails = extractEmails(contacts.from);
-            all_to_emails = extractEmails(contacts.to);
-
-            all_from_emails.forEach((contact) => {
-              if (uniqueAll.indexOf(contact) == -1) {
-                uniqueAll.push(contact);
-              }
-            });
-
-            all_to_emails.forEach((contact) => {
-              if (uniqueAll.indexOf(contact) == -1) {
-                uniqueAll.push(contact);
-              }
-            });
-
-            displayContacts(all_from_emails.reverse(), "from");
-            displayContacts(all_to_emails.reverse(), "to");
-            console.log(uniqueAll.length);
-          })
-          .catch((error) => console.error("Error:", error));
-      }
-
-      function subscribeToNewEmails() {
-        console.log("func called");
-        const eventSource = new EventSource("/streamNewEmails");
-
-        eventSource.addEventListener("newEmail", function (event) {
-          console.log("new email recieved");
-          // Parse the JSON data sent from the server
-          const allEmails = JSON.parse(event.data);
-          console.log(allEmails);
-          // Extract the relevant information
-          let from = allEmails.from;
-          let subject = allEmails.subject;
-          let date = allEmails.date;
-
-          // Display the new email details in the UI
-          const emailDetails = `From: ${from}, Subject: ${subject}, Date: ${date}`;
-          displayNewEmail(emailDetails);
-          // fetchContacts();
-        });
-      }
-
-      function displayNewEmail(emailDetails) {
-        // Get the container element where the email details will be displayed
-        const emailContainer = document.getElementById("newEmailContainer");
-
-        // Create a new paragraph element to display the email details
-        const emailParagraph = document.createElement("p");
-        emailParagraph.textContent = emailDetails;
-
-        // Append the paragraph element to the container
-        emailContainer.appendChild(emailParagraph);
-      }
-
-      function displayContacts(contacts, type) {
-        let contactsList;
-        if (type === "from") {
-          contactsList = document.getElementById("from");
-          contactsList.innerHTML = "";
-          contacts.forEach((contact) => {
-            if (uniqueFrom.indexOf(contact) === -1) {
-              uniqueFrom.push(contact);
-              let li = document.createElement("li");
-              li.textContent = contact;
-              contactsList.appendChild(li);
-            }
-          });
-          document.querySelector(".lenght-f").innerHTML = uniqueFrom.length;
-          console.log(uniqueFrom.length);
-        } else if (type === "to") {
-          contactsList = document.getElementById("to");
-          contactsList.innerHTML = "";
-          contacts.forEach((contact) => {
-            if (uniqueTo.indexOf(contact) === -1) {
-              uniqueTo.push(contact);
-              let li = document.createElement("li");
-              li.textContent = contact;
-              contactsList.appendChild(li);
-            }
-          });
-          document.querySelector(".lenght-t").innerHTML = uniqueTo.length;
-          console.log(uniqueTo.length);
-        }
-      }
-
-      const emailPattern = /([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9_-]+)/;
-
-      // Function to extract email addresses from the array
-      function extractEmails(emailsArray) {
-        const extractedEmails = [];
-        for (const item of emailsArray) {
-          const match = emailPattern.exec(item);
-          if (match) {
-            extractedEmails.push(match[0]);
-          }
-        }
-        return extractedEmails;
-      }
-    </script>
+    <script src="js/frontend.js"></script>
   </body>
 </html>

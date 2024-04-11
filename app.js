@@ -124,6 +124,7 @@ app.use(express.static(path.join(__dirname, "public")));
 app.get("/streamNewEmails", (req, res) => {
   // Set response headers for SSE
   console.log("reached");
+
   res.setHeader("Content-Type", "text/event-stream");
   res.setHeader("Cache-Control", "no-cache");
   res.setHeader("Connection", "keep-alive");
@@ -153,6 +154,7 @@ app.get("/streamNewEmails", (req, res) => {
             buffer += chunk.toString("utf8");
           });
           stream.once("end", function () {
+            console.log("new email recieved....!");
             const headers = Imap.parseHeader(buffer);
             // console.log(headers);
             emailData.from = headers.from && headers.from[0];
@@ -163,6 +165,7 @@ app.get("/streamNewEmails", (req, res) => {
         });
 
         msg.once("end", function () {
+          console.log("sending to client....");
           // Once all details are collected, send the event to the client
           res.write("event: newEmail\n");
           res.write(`data: ${JSON.stringify(emailData)}\n\n`);
@@ -186,5 +189,83 @@ app.get("/streamNewEmails", (req, res) => {
   req.on("close", () => {
     emitter.off("newEmail", sendNewEmailEvent);
     clearInterval(keepAlive);
+  });
+});
+
+function fetchTodaysEmails(callback) {
+  openInbox((err, box) => {
+    if (err) {
+      console.error("Error opening INBOX:", err);
+      return callback(err);
+    }
+
+    const today = new Date();
+    let formattedDate = today.toISOString().slice(0, 10); // Format today's date as YYYY-MM-DD
+
+    imap.search(["UNSEEN", ["SINCE", "Apr 11, 2024"]], async (err, results) => {
+      if (err) {
+        console.error("Error searching for today's emails:", err);
+        return callback(err);
+      }
+
+      const f = imap.fetch(results, {
+        bodies: "",
+        struct: true,
+      });
+
+      const emails = [];
+
+      f.on("message", function (msg) {
+        const emailData = {};
+
+        msg.on("body", function (stream, info) {
+          let buffer = "";
+          stream.on("data", function (chunk) {
+            buffer += chunk.toString("utf8");
+          });
+          stream.once("end", function () {
+            const headers = Imap.parseHeader(buffer);
+            emailData.from = headers.from && headers.from[0];
+            emailData.subject = headers.subject && headers.subject[0];
+            emailData.date = headers.date && headers.date[0];
+            // Add more fields as needed
+          });
+        });
+
+        msg.once("end", function () {
+          emails.push(emailData);
+        });
+      });
+
+      f.once("error", function (err) {
+        console.error("Fetch error:", err);
+        return callback(err);
+      });
+
+      f.once("end", function () {
+        console.log("Done fetching today's emails!");
+        callback(null, emails);
+      });
+    });
+  });
+}
+
+// Route to fetch today's emails
+app.get("/fetchTodaysEmails", (req, res) => {
+  fetchTodaysEmails((err, emails) => {
+    if (err) {
+      return res.status(500).json({ error: "Error fetching today's emails" });
+    }
+    res.json(emails.reverse());
+  });
+});
+
+// Route to fetch new email
+app.get("/fetchNewEmail", (req, res) => {
+  fetchTodaysEmails((err, emails) => {
+    if (err) {
+      return res.status(500).json({ error: "Error fetching today's emails" });
+    }
+    res.json(emails.reverse()[0]);
   });
 });
