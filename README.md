@@ -40,11 +40,20 @@ Users can provide feedback on the accuracy and effectiveness of the email priori
 
 ## Installation and Usage
 
+### Prerequisites
+
+Before running the Email Monitoring System, ensure you have the following prerequisites installed:
+
+- Node.js LTS version
+- Git
+
+### Steps
+
 To clone and use the Email Monitoring System, follow these steps:
 
 1. Clone this repository to your local machine:
 
-```bash
+```git
 git clone https://github.com/Vinoth82003/email-monitoring-system.git
 ```
 
@@ -56,7 +65,7 @@ cd email-monitoring-system
 
 3. Install dependencies:
 
-```bash
+```node
 npm install dotenv express node-imap
 ```
 
@@ -73,7 +82,7 @@ Replace `your_email@example.com` with your email address and `your_email_passwor
 
 5. Start the server:
 
-```bash
+```node
 npm start
 ```
 
