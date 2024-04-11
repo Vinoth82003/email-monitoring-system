@@ -51,28 +51,31 @@
               }
             });
 
-            displayContacts(all_from_emails, "from");
-            displayContacts(all_to_emails, "to");
+            displayContacts(all_from_emails.reverse(), "from");
+            displayContacts(all_to_emails.reverse(), "to");
             console.log(uniqueAll.length);
           })
           .catch((error) => console.error("Error:", error));
       }
 
       function subscribeToNewEmails() {
+        console.log("func called");
         const eventSource = new EventSource("/streamNewEmails");
 
         eventSource.addEventListener("newEmail", function (event) {
+          console.log("new email recieved");
           // Parse the JSON data sent from the server
-          const emailData = JSON.parse(event.data);
-
+          const allEmails = JSON.parse(event.data);
+          console.log(allEmails);
           // Extract the relevant information
-          const from = emailData.from;
-          const subject = emailData.subject;
-          const date = emailData.date;
+          let from = allEmails.from;
+          let subject = allEmails.subject;
+          let date = allEmails.date;
 
           // Display the new email details in the UI
           const emailDetails = `From: ${from}, Subject: ${subject}, Date: ${date}`;
           displayNewEmail(emailDetails);
+          // fetchContacts();
         });
       }
 

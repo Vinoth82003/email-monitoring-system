@@ -123,6 +123,7 @@ app.use(express.static(path.join(__dirname, "public")));
 // SSE endpoint to stream new emails to the client
 app.get("/streamNewEmails", (req, res) => {
   // Set response headers for SSE
+  console.log("reached");
   res.setHeader("Content-Type", "text/event-stream");
   res.setHeader("Cache-Control", "no-cache");
   res.setHeader("Connection", "keep-alive");
@@ -137,6 +138,7 @@ app.get("/streamNewEmails", (req, res) => {
       }
 
       const latestEmail = box.messages.total;
+      console.log(latestEmail);
       const f = imap.fetch(latestEmail, {
         bodies: "",
         struct: true,
@@ -152,6 +154,7 @@ app.get("/streamNewEmails", (req, res) => {
           });
           stream.once("end", function () {
             const headers = Imap.parseHeader(buffer);
+            // console.log(headers);
             emailData.from = headers.from && headers.from[0];
             emailData.subject = headers.subject && headers.subject[0];
             emailData.date = headers.date && headers.date[0];
