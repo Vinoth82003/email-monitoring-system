@@ -78,7 +78,7 @@ EMAIL=your_email@example.com
 PASS=your_email_password
 ```
 
-Replace `your_email@example.com` with your email address and `your_email_password` with your email password.
+Replace `your_email@example.com` with your email address and `your_email_password` with your email app password.
 
 5. Start the server:
 
