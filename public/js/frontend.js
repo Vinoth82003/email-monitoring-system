@@ -56,7 +56,11 @@ function menu_click(index) {
   });
   if (currentTable) {
     let count = currentTable.querySelector("tbody").childElementCount;
-    count_display.innerHTML = count?(count >= 10 ? count : "0" + count):"no count";
+    count_display.innerHTML = count
+      ? count >= 10
+        ? count
+        : "0" + count
+      : "no count";
     let title = currentTable.getAttribute("data-title");
     title_display.innerHTML = title ? title : "no title";
   }
@@ -138,5 +142,34 @@ menu_btns.forEach((btn) => {
   btn.addEventListener("click", () => {
     let index = btn.getAttribute("index");
     menu_click(index);
+  });
+});
+
+let searchByName = document.querySelector("#name");
+let searchByEmail = document.querySelector("#email");
+
+searchByName.addEventListener("input", () => {
+  let input = searchByName.value.toLowerCase().trim();
+  let all_tr = currentTable.querySelectorAll("tbody tr");
+  all_tr.forEach((tr) => {
+    let data_name = tr.querySelector("td.name").innerHTML.toLowerCase().trim();
+    if (data_name.includes(input)) {
+      tr.style.display = "";
+    } else {
+      tr.style.display = "none";
+    }
+  });
+});
+
+searchByEmail.addEventListener("input", () => {
+  let input = searchByEmail.value.toLowerCase().trim();
+  let all_tr = currentTable.querySelectorAll("tbody tr");
+  all_tr.forEach((tr) => {
+    let data_name = tr.querySelector("td.email").innerHTML.toLowerCase().trim();
+    if (data_name.includes(input)) {
+      tr.style.display = "";
+    } else {
+      tr.style.display = "none";
+    }
   });
 });

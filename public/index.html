@@ -82,7 +82,7 @@
             </div>
           </li>
           <li class="side_menu">
-            <div class="inner_menu" index="1">
+            <div class="inner_menu" index="1" onclick="fetchContacts()">
               <div class="icon"><i class="fas fa-mail-bulk"></i></div>
               <div class="text">All Contacts</div>
             </div>
@@ -122,8 +122,8 @@
               />
               <input
                 type="search"
-                name="name"
-                id="name"
+                name="email"
+                id="email"
                 placeholder="search by mail"
               />
             </div>
@@ -143,34 +143,34 @@
                 <th>subject</th>
                 <th>date time</th>
               </thead>
-              <tbody class="allEmails_display">
+              <tbody class="allEmails_display todayEmails">
                 <tr>
                   <td>1</td>
-                  <td data-name="name">john doe</td>
-                  <td data-email="email">johndoe@gmail.com</td>
+                  <td class="name">john doe</td>
+                  <td class="email">johndoe@gmail.com</td>
                   <td>Testing your email</td>
-                  <td data-date="date">11/11/1111 11:11 PM IST</td>
+                  <td class="date">11/11/1111 11:11 PM IST</td>
                 </tr>
                 <tr>
                   <td>2</td>
-                  <td data-name="name">john doe</td>
-                  <td data-email="email">johndoe@gmail.com</td>
+                  <td class="name">john doe</td>
+                  <td class="email">johndoe@gmail.com</td>
                   <td>Testing your email</td>
-                  <td data-date="date">11/11/1111 11:11 PM IST</td>
+                  <td class="date">11/11/1111 11:11 PM IST</td>
                 </tr>
                 <tr>
                   <td>3</td>
-                  <td data-name="name">john doe</td>
-                  <td data-email="email">johndoe@gmail.com</td>
+                  <td class="name">john doe</td>
+                  <td class="email">johndoe@gmail.com</td>
                   <td>Testing your email</td>
-                  <td data-date="date">11/11/1111 11:11 PM IST</td>
+                  <td class="date">11/11/1111 11:11 PM IST</td>
                 </tr>
                 <tr>
                   <td>4</td>
-                  <td data-name="name">john doe</td>
-                  <td data-email="email">johndoe@gmail.com</td>
+                  <td class="name">john doe</td>
+                  <td class="email">johndoe@gmail.com</td>
                   <td>Testing your email</td>
-                  <td data-date="date">11/11/1111 11:11 PM IST</td>
+                  <td class="date">11/11/1111 11:11 PM IST</td>
                 </tr>
                 <tr>
                   <td colspan="5" class="no_td">No emails on today</td>
@@ -178,10 +178,44 @@
               </tbody>
             </table>
           </section>
-          <section class="section" index="1"></section>
+          <section class="section all_contacts" index="1">
+            <div class="section_head">
+              <div class="tag_btns">
+                <div class="tag_btn active">All</div>
+                <div class="tag_btn">From</div>
+                <div class="tag_btn">To</div>
+              </div>
+            </div>
+            <table
+              class="all_mails_table contacts"
+              data-title="All E-mail contacts"
+            >
+              <thead>
+                <th>Sno</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Type</th>
+              </thead>
+              <tbody class="allEmails_display contactEmail">
+                <tr>
+                  <td>1</td>
+                  <td class="name">john doe</td>
+                  <td class="email">johndoe@gmail.com</td>
+                  <td>To</td>
+                </tr>
+                <tr>
+                  <td>2</td>
+                  <td class="name">john doe</td>
+                  <td class="email">johndoe@gmail.com</td>
+                  <td>From</td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
         </div>
       </main>
     </div>
     <script src="js/frontend.js"></script>
+    <script src="js/script.js"></script>
   </body>
 </html>

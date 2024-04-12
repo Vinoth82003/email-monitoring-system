@@ -102,6 +102,7 @@
   background: #fff;
   position: fixed;
   inset: 0;
+  z-index: 10;
 }
 
 .left_nav {
@@ -171,7 +172,7 @@
 }
 
 .sidemenu {
-  position: absolute;
+  position: fixed;
   left: 0;
   top: 80px;
   background: #ffff;
@@ -338,6 +339,11 @@
 
 section.section {
   display: none;
+  padding: 10px;
+  background: #fff;
+  margin-top: 10px;
+  border-radius: 5px;
+  overflow-x: scroll;
 }
 
 section.section.active {
@@ -381,3 +387,54 @@ tr:nth-child(even) {
 td.no_td {
   text-align: center;
 }
+
+input[type="search"] {
+  padding: 10px;
+  border-radius: 50px;
+  border: 2px solid #5d88ff;
+  outline: none;
+}
+
+main {
+  background: #e2e2e2;
+}
+
+/* all contact design .. ! */
+
+.section_head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.tag_btns {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.tag_btn {
+  padding: 10px;
+  background: #dfdfdf;
+  border-radius: 20px;
+  width: 60px;
+  text-align: center;
+  text-transform: capitalize;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+.tag_btn:hover {
+  scale: 1.1;
+}
+
+.tag_btn.active {
+  background: #a8bfff;
+}
+
+.contacts {
+  margin-top: 15px;
+}
+
+/* all contact design .. ! */

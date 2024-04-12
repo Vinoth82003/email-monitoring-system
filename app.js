@@ -202,7 +202,7 @@ function fetchTodaysEmails(callback) {
     const today = new Date();
     let formattedDate = today.toISOString().slice(0, 10); // Format today's date as YYYY-MM-DD
 
-    imap.search(["UNSEEN", ["SINCE", "Apr 11, 2024"]], async (err, results) => {
+    imap.search(["UNSEEN", ["SINCE", "Apr 12, 2024"]], async (err, results) => {
       if (err) {
         console.error("Error searching for today's emails:", err);
         return callback(err);
