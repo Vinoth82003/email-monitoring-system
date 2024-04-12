@@ -180,6 +180,7 @@
   height: calc(100vh - 80px);
   overflow-x: hidden;
   transition: all 0.4s;
+  z-index: 10;
 }
 
 .sidemenu.active {
@@ -201,9 +202,12 @@
 .inner_menu {
   display: flex;
   align-items: center;
+  min-width: 35px;
+  height: 40px;
   gap: 5px;
   padding: 10px;
   cursor: pointer;
+  border-radius: 50%;
 }
 
 .text {
@@ -222,8 +226,11 @@
 
 .inner_menu:hover {
   background: #f1f1f1;
-  border-radius: 5px;
   transition: 0.3s;
+}
+
+.inner_menu.active {
+  background: #dcdcdc;
 }
 
 .sidemenu .text {
@@ -279,6 +286,12 @@
   left: 60px;
   width: calc(100vw - 60px);
   min-height: calc(100vh - 80px);
+  transition: all 0.4s;
+}
+
+.main.active {
+  left: 250px;
+  width: calc(100vw - 250px);
 }
 
 .inner_main {
@@ -315,4 +328,56 @@
 .count {
   display: flex;
   gap: 5px;
+  text-transform: capitalize;
+  font-weight: 600;
+}
+
+.sidemenu.active .inner_menu {
+  border-radius: 5px;
+}
+
+section.section {
+  display: none;
+}
+
+section.section.active {
+  display: block;
+}
+
+.section.all_mails {
+  width: 100%;
+  max-width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  background: #fff;
+  border-radius: 5px;
+  overflow-x: auto;
+}
+
+.all_mails_table {
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 5px;
+  overflow: hidden;
+  font-family: sans-serif;
+}
+
+.all_mails_table th {
+  background: #333;
+  padding: 10px;
+  text-align: center;
+  color: #fff;
+  border-right: 2px solid #fff;
+}
+
+td {
+  padding: 10px;
+}
+
+tr:nth-child(even) {
+  background-color: #c9d7fc;
+}
+
+td.no_td {
+  text-align: center;
 }

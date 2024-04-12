@@ -76,31 +76,31 @@
         </div>
         <ul class="side_bar">
           <li class="side_menu">
-            <div class="inner_menu">
+            <div class="inner_menu active" index="0">
               <div class="icon"><i class="fas fa-inbox"></i></div>
               <div class="text">Today's Mails</div>
             </div>
           </li>
           <li class="side_menu">
-            <div class="inner_menu">
+            <div class="inner_menu" index="1">
               <div class="icon"><i class="fas fa-mail-bulk"></i></div>
               <div class="text">All Contacts</div>
             </div>
           </li>
           <li class="side_menu">
-            <div class="inner_menu">
+            <div class="inner_menu" index="2">
               <div class="icon"><i class="fas fa-at"></i></div>
               <div class="text">important mails</div>
             </div>
           </li>
           <li class="side_menu">
-            <div class="inner_menu">
+            <div class="inner_menu" index="3">
               <div class="icon"><i class="fas fa-user-plus"></i></div>
               <div class="text">add important mails</div>
             </div>
           </li>
           <li class="side_menu">
-            <div class="inner_menu">
+            <div class="inner_menu" index="4">
               <div class="icon"><i class="fas fa-sign-out-alt"></i></div>
               <div class="text">logout</div>
             </div>
@@ -111,16 +111,74 @@
         <div class="inner_main">
           <header class="section_header">
             <div class="head_left">
-              <p class="title">All Emails</p>
+              <p class="title">today's E-mails</p>
+            </div>
+            <div class="search">
+              <input
+                type="search"
+                name="name"
+                id="name"
+                placeholder="search by name"
+              />
+              <input
+                type="search"
+                name="name"
+                id="name"
+                placeholder="search by mail"
+              />
             </div>
             <div class="head_right">
               <div class="count">
-                total:
+                total mails:
                 <p class="total">04</p>
               </div>
             </div>
           </header>
-          <section class="section all_mails"></section>
+          <section class="section all_mails" index="0">
+            <table class="all_mails_table" data-title="today's e-mails">
+              <thead>
+                <th>Sno</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>subject</th>
+                <th>date time</th>
+              </thead>
+              <tbody class="allEmails_display">
+                <tr>
+                  <td>1</td>
+                  <td data-name="name">john doe</td>
+                  <td data-email="email">johndoe@gmail.com</td>
+                  <td>Testing your email</td>
+                  <td data-date="date">11/11/1111 11:11 PM IST</td>
+                </tr>
+                <tr>
+                  <td>2</td>
+                  <td data-name="name">john doe</td>
+                  <td data-email="email">johndoe@gmail.com</td>
+                  <td>Testing your email</td>
+                  <td data-date="date">11/11/1111 11:11 PM IST</td>
+                </tr>
+                <tr>
+                  <td>3</td>
+                  <td data-name="name">john doe</td>
+                  <td data-email="email">johndoe@gmail.com</td>
+                  <td>Testing your email</td>
+                  <td data-date="date">11/11/1111 11:11 PM IST</td>
+                </tr>
+                <tr>
+                  <td>4</td>
+                  <td data-name="name">john doe</td>
+                  <td data-email="email">johndoe@gmail.com</td>
+                  <td>Testing your email</td>
+                  <td data-date="date">11/11/1111 11:11 PM IST</td>
+                </tr>
+                <tr>
+                  <td colspan="5" class="no_td">No emails on today</td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+          <section class="section" index="1"></section>
         </div>
       </main>
     </div>
