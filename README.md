@@ -4,7 +4,7 @@ The Email Monitoring System is an intelligent solution designed to alleviate ema
 
 ## Demo
 
-Check out the live demo of Order Animation [here](https://email-monitoring-system-silk.vercel.app/).
+Check out the live demo of Email Monitoring System [here](https://email-monitoring-system-silk.vercel.app/).
 
 ## Scope of the Project
 
