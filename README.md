@@ -2,6 +2,10 @@
 
 The Email Monitoring System is an intelligent solution designed to alleviate email overload and ensure timely attention to critical communications. It offers a range of features to help users manage their emails more effectively.
 
+## Demo
+
+Check out the live demo of Order Animation [here](https://email-monitoring-system-silk.vercel.app/).
+
 ## Scope of the Project
 
 The proposed project aims to develop an intelligent email monitoring system with the following key features:
