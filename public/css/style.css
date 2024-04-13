@@ -342,6 +342,27 @@ body {
   border-radius: 5px;
 }
 
+.icon {
+  position: relative;
+  /* background: #5b5b5b; */
+}
+
+.bellCount {
+  position: absolute;
+  left: 5px;
+  top: -5px;
+  background: red;
+  color: #fff;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: sans-serif;
+  font-size: 12px;
+}
+
 section.section {
   display: none;
   padding: 10px;

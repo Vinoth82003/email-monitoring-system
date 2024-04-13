@@ -152,7 +152,7 @@ app.get("/streamNewEmails", (req, res) => {
   res.setHeader("Connection", "keep-alive");
 
   // Listen for 'newEmail' events and send them to the client
-  const sendNewEmailEvent = () => {
+  const sendNewEmailEvent = async () => {
     // Fetch the latest email from the inbox
     openInbox((err, box) => {
       if (err) {
@@ -288,6 +288,6 @@ app.get("/fetchNewEmail", (req, res) => {
     if (err) {
       return res.status(500).json({ error: "Error fetching today's emails" });
     }
-    res.json(emails.reverse()[0]);
+    res.json([emails.reverse()[0]]);
   });
 });

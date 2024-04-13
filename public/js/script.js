@@ -5,6 +5,32 @@ let uniqueFrom = [];
 let uniqueTo = [];
 let uniqueAll = [];
 
+function alertMail(email) {
+  // console.log(email);
+  let bellCount = document.querySelector(".bellCount");
+  document.querySelector(".colspan")
+    ? document.querySelector(".colspan").remove()
+    : "";
+  let tbody = document.querySelector(".newEmails");
+  bellCount.innerHTML = tbody.childElementCount;
+  // tbody.innerHTML = "";
+  email.map((email) => {
+    let tr = document.createElement("tr");
+    let nameAndEmail = extractEmails([email.from]);
+    console.log([email.from]);
+    console.log(nameAndEmail);
+    tr.innerHTML = `
+      <td>${tbody.childElementCount + 1}</td>
+      <td class="name">${nameAndEmail[0].name}</td>
+      <td class="email">${nameAndEmail[0].email}</td>
+      <td class="subject">${email.subject}</td>
+      <td class="date">${email.date}</td>
+    `;
+    tbody.appendChild(tr);
+  });
+  bellCount.innerHTML = tbody.childElementCount;
+}
+// alertMail("email");
 function displayAllContacts(emails) {
   let tbody = document.querySelector(".contactEmail");
   tbody.innerHTML = "";
@@ -60,6 +86,8 @@ function displayTodayEmails(allEmails) {
   // console.log(emails);
   let tablebody = document.querySelector(".todayEmails");
   tablebody.innerHTML = "";
+  console.log(allEmails.length);
+  console.log(allEmails);
   allEmails.map((email, index) => {
     // console.log(index);
     let Ex_name;
@@ -80,10 +108,7 @@ function displayTodayEmails(allEmails) {
           `;
     tablebody.appendChild(tr);
   });
-  // allEmails.forEach(async (email, index) => {
-  //   // const emailDetails = `From: ${email.from}, Subject: ${email.subject}, Date: ${email.date}`;
-  //   // displayNewEmail(emailDetails);
-  // });
+
   document.querySelector(".total").innerHTML =
     tablebody.childElementCount >= 10
       ? tablebody.childElementCount
@@ -97,6 +122,7 @@ function subscribeToNewEmails() {
   eventSource.addEventListener("newEmail", function (event) {
     console.log("new email recieved");
     fetchNewEmail();
+    // alertMail;
   });
 }
 
@@ -116,11 +142,9 @@ function fetchTodaysEmails() {
   fetch("/fetchTodaysEmails")
     .then((response) => response.json())
     .then((emails) => {
-      // emails.reverse()
       if (emails.length > 0) {
         displayTodayEmails(emails);
       } else {
-        // const emailDetails = `From: ${emails.from}, Subject: ${emails.subject}, Date: ${emails.date}`;
         document.querySelector(".todayEmails").innerHTML = ` 
         <tr>
           <td colspan="5" class="no_td">No emails on today</td>
@@ -134,7 +158,7 @@ function fetchNewEmail() {
   fetch("/fetchNewEmail")
     .then((response) => response.json())
     .then((emails) => {
-      displayTodayEmails(emails);
+      alertMail(emails);
     })
     .catch((error) => console.error("Error:", error));
 }
@@ -187,14 +211,18 @@ function extractEmailsAndName(dataArray, type) {
 }
 
 function filter(type) {
-  console.log(type);
   if (type == "all") {
+    document.querySelector("tbody.contactEmail").innerHTML = "";
     displayAllContacts(uniqueAll);
   } else if (type == "from") {
+    document.querySelector("tbody.contactEmail").innerHTML = "";
     displayAllContacts(uniqueFrom);
   } else if (type == "to") {
+    console.log(uniqueTo);
+    document.querySelector("tbody.contactEmail").innerHTML = "";
     displayAllContacts(uniqueTo);
   } else {
+    document.querySelector("tbody.contactEmail").innerHTML = "";
     displayAllContacts(uniqueAll);
   }
 }
