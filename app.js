@@ -23,6 +23,28 @@ function openInbox(cb) {
   imap.openBox("INBOX", true, cb);
 }
 
+function getCurrentDate() {
+  const months = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+  const currentDate = new Date();
+  const month = months[currentDate.getMonth()];
+  const day = currentDate.getDate();
+  const year = currentDate.getFullYear();
+  return `${month} ${day}, ${year}`;
+}
+
 // Function to fetch contacts from messages
 app.get("/fetchContacts", (req, res) => {
   openInbox(async function (err, box) {
@@ -198,11 +220,11 @@ function fetchTodaysEmails(callback) {
       console.error("Error opening INBOX:", err);
       return callback(err);
     }
+    // Example usage
+    const formattedDate = getCurrentDate();
+    console.log(formattedDate); // Output: "Apr 12, 2024"
 
-    const today = new Date();
-    let formattedDate = today.toISOString().slice(0, 10); // Format today's date as YYYY-MM-DD
-
-    imap.search(["UNSEEN", ["SINCE", "Apr 12, 2024"]], async (err, results) => {
+    imap.search(["UNSEEN", ["SINCE", formattedDate]], async (err, results) => {
       if (err) {
         console.error("Error searching for today's emails:", err);
         return callback(err);

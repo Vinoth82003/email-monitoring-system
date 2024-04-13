@@ -5,6 +5,11 @@
   list-style: none;
 }
 
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
 .color_list {
   display: flex;
   align-items: center;

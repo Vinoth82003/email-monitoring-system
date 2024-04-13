@@ -76,7 +76,11 @@
         </div>
         <ul class="side_bar">
           <li class="side_menu">
-            <div class="inner_menu active" index="0">
+            <div
+              class="inner_menu active"
+              index="0"
+              onclick="fetchTodaysEmails()"
+            >
               <div class="icon"><i class="fas fa-inbox"></i></div>
               <div class="text">Today's Mails</div>
             </div>
@@ -181,9 +185,11 @@
           <section class="section all_contacts" index="1">
             <div class="section_head">
               <div class="tag_btns">
-                <div class="tag_btn active">All</div>
-                <div class="tag_btn">From</div>
-                <div class="tag_btn">To</div>
+                <div class="tag_btn all active" onclick="filter('all')">
+                  All
+                </div>
+                <div class="tag_btn from" onclick="filter('from')">From</div>
+                <div class="tag_btn to" onclick="filter('to')">To</div>
               </div>
             </div>
             <table
@@ -201,13 +207,16 @@
                   <td>1</td>
                   <td class="name">john doe</td>
                   <td class="email">johndoe@gmail.com</td>
-                  <td>To</td>
+                  <td class="type">To</td>
                 </tr>
                 <tr>
                   <td>2</td>
                   <td class="name">john doe</td>
                   <td class="email">johndoe@gmail.com</td>
                   <td>From</td>
+                </tr>
+                <tr>
+                  <td colspan="4">No Contact Yet</td>
                 </tr>
               </tbody>
             </table>

@@ -1,27 +1,15 @@
-// const colors = [
-//   "#074173",
-//   "#003C43",
-//   "#49243E",
-//   "#2C7865",
-//   "#453F78",
-//   "#222831",
-//   "#5C8374",
-//   "#474E68",
-//   "#141E61",
-//   "#4B5D67",
-// ];
-
-// // Function to set random background color for each li element
-// function setRandomBackgroundColors() {
-//   const lis = document.querySelectorAll(".colors");
-//   lis.forEach((li) => {
-//     const randomColor = colors[Math.floor(Math.random() * colors.length)];
-//     li.style.backgroundColor = randomColor;
-//   });
-// }
-
-// // Call the function to set random background colors on page load
-// setRandomBackgroundColors();
+const colors = [
+  "#074173",
+  "#003C43",
+  "#49243E",
+  "#2C7865",
+  "#453F78",
+  "#222831",
+  "#5C8374",
+  "#474E68",
+  "#141E61",
+  "#4B5D67",
+];
 
 let time_box = document.querySelector(".time_box");
 let median = document.getElementById("median");
@@ -171,5 +159,15 @@ searchByEmail.addEventListener("input", () => {
     } else {
       tr.style.display = "none";
     }
+  });
+});
+
+let all_tag = document.querySelectorAll(".tag_btn");
+all_tag.forEach((tag) => {
+  tag.addEventListener("click", () => {
+    all_tag.forEach((element) => {
+      element.classList.remove("active");
+    });
+    tag.classList.add("active");
   });
 });
