@@ -143,77 +143,80 @@ imap.connect();
 // Serve static files from the "public" directory
 app.use(express.static(path.join(__dirname, "public")));
 
-// SSE endpoint to stream new emails to the client
 app.get("/streamNewEmails", (req, res) => {
-  // Set response headers for SSE
-  console.log("reached");
-
   res.setHeader("Content-Type", "text/event-stream");
   res.setHeader("Cache-Control", "no-cache");
   res.setHeader("Connection", "keep-alive");
 
-  // Listen for 'newEmail' events and send them to the client
   const sendNewEmailEvent = async () => {
-    // Fetch the latest email from the inbox
-    openInbox((err, box) => {
-      if (err) {
-        console.error("Error opening INBOX:", err);
-        return;
-      }
-
-      const latestEmail = box.messages.total;
-      console.log(latestEmail);
-      const f = imap.fetch(latestEmail, {
-        bodies: "",
-        struct: true,
-      });
-
-      f.on("message", function (msg) {
-        const emailData = {};
-
-        msg.on("body", function (stream, info) {
-          let buffer = "";
-          stream.on("data", function (chunk) {
-            buffer += chunk.toString("utf8");
-          });
-          stream.once("end", function () {
-            console.log("new email recieved....!");
-            const headers = Imap.parseHeader(buffer);
-            // console.log(headers);
-            emailData.from = headers.from && headers.from[0];
-            emailData.subject = headers.subject && headers.subject[0];
-            emailData.date = headers.date && headers.date[0];
-            // Add more fields as needed
-          });
-        });
-
-        msg.once("end", function () {
-          console.log("sending to client....");
-          // Once all details are collected, send the event to the client
-          res.write("event: newEmail\n");
-          res.write(`data: ${JSON.stringify(emailData)}\n\n`);
-        });
-      });
-    });
+    try {
+      const latestEmail = await fetchLatestEmail();
+      const emailData = await getEmailData(latestEmail);
+      res.write("event: newEmail\n");
+      res.write(`data: ${JSON.stringify(emailData)}\n\n`);
+    } catch (error) {
+      console.error("Error sending new email event:", error);
+      res.write("event: error\n");
+      res.write(`data: ${JSON.stringify(error)}\n\n`);
+    }
   };
 
-  // Send keep-alive signal to prevent the connection from timing out
   const keepAlive = setInterval(() => {
     res.write(":keep-alive\n\n");
-  }, 20000); // Send every 20 seconds
+  }, 20000);
 
-  // Send initial response to establish connection
   res.write(":connected\n\n");
 
-  // Attach event listener for new email events
   emitter.on("newEmail", sendNewEmailEvent);
 
-  // Cleanup on client disconnect
   req.on("close", () => {
     emitter.off("newEmail", sendNewEmailEvent);
     clearInterval(keepAlive);
   });
 });
+
+async function fetchLatestEmail() {
+  return new Promise((resolve, reject) => {
+    openInbox((err, box) => {
+      if (err) {
+        reject(err);
+        return;
+      }
+      const latestEmail = box.messages.total;
+      resolve(latestEmail);
+    });
+  });
+}
+
+async function getEmailData(emailId) {
+  return new Promise((resolve, reject) => {
+    const f = imap.fetch(emailId, {
+      bodies: "",
+      struct: true,
+    });
+    f.on("message", function (msg) {
+      const emailData = {};
+      msg.on("body", function (stream, info) {
+        let buffer = "";
+        stream.on("data", function (chunk) {
+          buffer += chunk.toString("utf8");
+        });
+        stream.once("end", function () {
+          const headers = Imap.parseHeader(buffer);
+          emailData.from = headers.from && headers.from[0];
+          emailData.subject = headers.subject && headers.subject[0];
+          emailData.date = headers.date && headers.date[0];
+        });
+      });
+      msg.once("end", function () {
+        resolve(emailData);
+      });
+    });
+    f.once("error", function (err) {
+      reject(err);
+    });
+  });
+}
 
 function fetchTodaysEmails(callback) {
   openInbox((err, box) => {
