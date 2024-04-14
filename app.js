@@ -4,6 +4,7 @@ const path = require("path");
 const Imap = require("node-imap");
 const bodyParser = require("body-parser");
 const { EventEmitter } = require("events");
+const sendMessage = require("./server/message");
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -288,6 +289,10 @@ app.get("/fetchNewEmail", (req, res) => {
     if (err) {
       return res.status(500).json({ error: "Error fetching today's emails" });
     }
+    let number = "919384460843";
+    let message = "New Email\n\n";
+    let sms = sendMessage(number, message);
+    console.log(sms);
     res.json([emails.reverse()[0]]);
   });
 });
