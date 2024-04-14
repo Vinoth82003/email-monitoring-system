@@ -144,79 +144,74 @@ imap.connect();
 app.use(express.static(path.join(__dirname, "public")));
 
 app.get("/streamNewEmails", (req, res) => {
+  // Set response headers for SSE
   res.setHeader("Content-Type", "text/event-stream");
   res.setHeader("Cache-Control", "no-cache");
   res.setHeader("Connection", "keep-alive");
 
-  const sendNewEmailEvent = async () => {
-    try {
-      const latestEmail = await fetchLatestEmail();
-      const emailData = await getEmailData(latestEmail);
-      res.write("event: newEmail\n");
-      res.write(`data: ${JSON.stringify(emailData)}\n\n`);
-    } catch (error) {
-      console.error("Error sending new email event:", error);
-      res.write("event: error\n");
-      res.write(`data: ${JSON.stringify(error)}\n\n`);
-    }
-  };
-
-  const keepAlive = setInterval(() => {
-    res.write(":keep-alive\n\n");
-  }, 20000);
-
-  res.write(":connected\n\n");
-
-  emitter.on("newEmail", sendNewEmailEvent);
-
-  req.on("close", () => {
-    emitter.off("newEmail", sendNewEmailEvent);
-    clearInterval(keepAlive);
-  });
-});
-
-async function fetchLatestEmail() {
-  return new Promise((resolve, reject) => {
-    openInbox((err, box) => {
+  // Function to fetch and send new email events to the client
+  const sendNewEmailEvent = () => {
+    openInbox(imap, (err, box) => {
       if (err) {
-        reject(err);
+        console.error("Error opening INBOX:", err);
+        res.status(500).send("Internal Server Error");
         return;
       }
-      const latestEmail = box.messages.total;
-      resolve(latestEmail);
-    });
-  });
-}
 
-async function getEmailData(emailId) {
-  return new Promise((resolve, reject) => {
-    const f = imap.fetch(emailId, {
-      bodies: "",
-      struct: true,
-    });
-    f.on("message", function (msg) {
-      const emailData = {};
-      msg.on("body", function (stream, info) {
-        let buffer = "";
-        stream.on("data", function (chunk) {
-          buffer += chunk.toString("utf8");
+      const latestEmail = box.messages.total;
+      const f = imap.fetch(latestEmail, {
+        bodies: "",
+        struct: true,
+      });
+
+      f.on("message", function (msg) {
+        const emailData = {};
+
+        msg.on("body", function (stream, info) {
+          let buffer = "";
+          stream.on("data", function (chunk) {
+            buffer += chunk.toString("utf8");
+          });
+          stream.once("end", function () {
+            const headers = Imap.parseHeader(buffer);
+            emailData.from = headers.from && headers.from[0];
+            emailData.subject = headers.subject && headers.subject[0];
+            emailData.date = headers.date && headers.date[0];
+            // Add more fields as needed
+          });
         });
-        stream.once("end", function () {
-          const headers = Imap.parseHeader(buffer);
-          emailData.from = headers.from && headers.from[0];
-          emailData.subject = headers.subject && headers.subject[0];
-          emailData.date = headers.date && headers.date[0];
+
+        msg.once("end", function () {
+          res.write("event: newEmail\n");
+          res.write(`data: ${JSON.stringify(emailData)}\n\n`);
         });
       });
-      msg.once("end", function () {
-        resolve(emailData);
-      });
     });
-    f.once("error", function (err) {
-      reject(err);
-    });
+  };
+
+  // Send initial response to establish connection
+  res.write(":connected\n\n");
+
+  // Attach event listener for new email events
+  imap.once("ready", () => {
+    imap.on("mail", sendNewEmailEvent);
   });
-}
+
+  // Error handling
+  imap.once("error", (err) => {
+    console.error("IMAP error:", err);
+    res.status(500).send("Internal Server Error");
+  });
+
+  // Connect to the IMAP server
+  imap.connect();
+
+  // Cleanup on client disconnect
+  req.on("close", () => {
+    imap.removeListener("mail", sendNewEmailEvent);
+    imap.end();
+  });
+});
 
 function fetchTodaysEmails(callback) {
   openInbox((err, box) => {
