@@ -143,22 +143,26 @@ imap.connect();
 // Serve static files from the "public" directory
 app.use(express.static(path.join(__dirname, "public")));
 
+// SSE endpoint to stream new emails to the client
 app.get("/streamNewEmails", (req, res) => {
   // Set response headers for SSE
+  console.log("reached");
+
   res.setHeader("Content-Type", "text/event-stream");
   res.setHeader("Cache-Control", "no-cache");
   res.setHeader("Connection", "keep-alive");
 
-  // Function to fetch and send new email events to the client
-  const sendNewEmailEvent = () => {
-    openInbox(imap, (err, box) => {
+  // Listen for 'newEmail' events and send them to the client
+  const sendNewEmailEvent = async () => {
+    // Fetch the latest email from the inbox
+    openInbox((err, box) => {
       if (err) {
         console.error("Error opening INBOX:", err);
-        res.status(500).send("Internal Server Error");
         return;
       }
 
       const latestEmail = box.messages.total;
+      console.log(latestEmail);
       const f = imap.fetch(latestEmail, {
         bodies: "",
         struct: true,
@@ -173,7 +177,9 @@ app.get("/streamNewEmails", (req, res) => {
             buffer += chunk.toString("utf8");
           });
           stream.once("end", function () {
+            console.log("new email recieved....!");
             const headers = Imap.parseHeader(buffer);
+            // console.log(headers);
             emailData.from = headers.from && headers.from[0];
             emailData.subject = headers.subject && headers.subject[0];
             emailData.date = headers.date && headers.date[0];
@@ -182,6 +188,8 @@ app.get("/streamNewEmails", (req, res) => {
         });
 
         msg.once("end", function () {
+          console.log("sending to client....");
+          // Once all details are collected, send the event to the client
           res.write("event: newEmail\n");
           res.write(`data: ${JSON.stringify(emailData)}\n\n`);
         });
@@ -189,27 +197,21 @@ app.get("/streamNewEmails", (req, res) => {
     });
   };
 
+  // Send keep-alive signal to prevent the connection from timing out
+  const keepAlive = setInterval(() => {
+    res.write(":keep-alive\n\n");
+  }, 20000); // Send every 20 seconds
+
   // Send initial response to establish connection
   res.write(":connected\n\n");
 
   // Attach event listener for new email events
-  imap.once("ready", () => {
-    imap.on("mail", sendNewEmailEvent);
-  });
-
-  // Error handling
-  imap.once("error", (err) => {
-    console.error("IMAP error:", err);
-    res.status(500).send("Internal Server Error");
-  });
-
-  // Connect to the IMAP server
-  imap.connect();
+  emitter.on("newEmail", sendNewEmailEvent);
 
   // Cleanup on client disconnect
   req.on("close", () => {
-    imap.removeListener("mail", sendNewEmailEvent);
-    imap.end();
+    emitter.off("newEmail", sendNewEmailEvent);
+    clearInterval(keepAlive);
   });
 });
 
