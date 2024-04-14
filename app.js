@@ -291,8 +291,7 @@ app.get("/fetchNewEmail", (req, res) => {
     }
     let number = "919384460843";
     let message = "New Email\n\n";
-    let sms = sendMessage(number, message);
-    console.log(sms);
+    sendMessage(number, message);
     res.json([emails.reverse()[0]]);
   });
 });
