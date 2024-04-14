@@ -59,20 +59,18 @@ function fetchContacts() {
     .then((contacts) => {
       let frommails = extractEmailsAndName(contacts.from, "from");
       frommails.forEach((contact) => {
-        if (uniqueAll.indexOf(contact) == -1) {
-          uniqueAll.push(contact);
-        }
-        if (uniqueFrom.indexOf(contact) == -1) {
+        if (all_from_emails.indexOf(contact.email) == -1) {
+          all_from_emails.push(contact.email);
           uniqueFrom.push(contact);
+          uniqueAll.push(contact);
         }
       });
       let tomails = extractEmailsAndName(contacts.to, "to");
       tomails.forEach((contact) => {
-        if (uniqueAll.indexOf(contact) == -1) {
-          uniqueAll.push(contact);
-        }
-        if (uniqueTo.indexOf(contact) == -1) {
+        if (all_to_emails.indexOf(contact.email) == -1) {
+          all_to_emails.push(contact.email);
           uniqueTo.push(contact);
+          uniqueAll.push(contact);
         }
       });
 
