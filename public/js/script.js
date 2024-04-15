@@ -5,8 +5,8 @@ let uniqueFrom = [];
 let uniqueTo = [];
 let uniqueAll = [];
 
-function alertMail(email) {
-  // console.log(email);
+function alertMail(allEmails) {
+  console.log(allEmails);
   let bellCount = document.querySelector(".bellCount");
   document.querySelector(".colspan")
     ? document.querySelector(".colspan").remove()
@@ -14,7 +14,7 @@ function alertMail(email) {
   let tbody = document.querySelector(".newEmails");
   bellCount.innerHTML = tbody.childElementCount;
   // tbody.innerHTML = "";
-  email.map((email) => {
+  allEmails.map((email) => {
     let tr = document.createElement("tr");
     let nameAndEmail = extractEmails([email.from]);
     console.log([email.from]);
@@ -117,10 +117,11 @@ function subscribeToNewEmails() {
   console.log("func called");
   const eventSource = new EventSource("/streamNewEmails");
 
-  eventSource.addEventListener("newEmail", function (event) {
-    console.log("new email recieved");
-    fetchNewEmail();
-    // alertMail;
+  eventSource.addEventListener("message", function (event) {
+    let newdata = JSON.parse(event.data);
+    alertMail([newdata]);
+    console.log("new email received:", JSON.parse(event.data));
+    // You can perform further actions with the received email data here
   });
 }
 
@@ -153,6 +154,7 @@ function fetchTodaysEmails() {
 }
 
 function fetchNewEmail() {
+  console.log("fetching ... emails from backend");
   fetch("/fetchNewEmail")
     .then((response) => response.json())
     .then((emails) => {

@@ -18,7 +18,7 @@ let count_display = document.querySelector(".head_right .total");
 let menu_btns = document.querySelectorAll("li .inner_menu");
 let all_sections = document.querySelectorAll("section.section");
 let currentTable;
-let currentIndex = 5;
+let currentIndex = 0;
 
 function menu_click(index) {
   menu_btns.forEach((menu) => {
