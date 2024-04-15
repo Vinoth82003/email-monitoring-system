@@ -207,6 +207,9 @@ app.get("/streamNewEmails", (req, res) => {
         res.write(`data: ${JSON.stringify(emails[emails.length - 1])}\n\n`);
         // Optionally, you can send an event name
         // res.write("event: newEmail\n");
+        let number = "919384460843";
+        let message = "New Email\n\n" + emails[emails.length - 1].from;
+        sendMessage(number, message);
       });
     });
   };
@@ -286,18 +289,5 @@ app.get("/fetchTodaysEmails", (req, res) => {
       return res.status(500).json({ error: "Error fetching today's emails" });
     }
     res.json(emails.reverse());
-  });
-});
-
-// Route to fetch new email
-app.get("/fetchNewEmail", (req, res) => {
-  fetchTodaysEmails((err, emails) => {
-    if (err) {
-      return res.status(500).json({ error: "Error fetching today's emails" });
-    }
-    // let number = "919384460843";
-    // let message = "New Email\n\n";
-    // sendMessage(number, message);
-    res.json([emails.reverse()[0]]);
   });
 });

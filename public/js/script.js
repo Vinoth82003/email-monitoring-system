@@ -153,15 +153,6 @@ function fetchTodaysEmails() {
     .catch((error) => console.error("Error:", error));
 }
 
-function fetchNewEmail() {
-  console.log("fetching ... emails from backend");
-  fetch("/fetchNewEmail")
-    .then((response) => response.json())
-    .then((emails) => {
-      alertMail(emails);
-    })
-    .catch((error) => console.error("Error:", error));
-}
 
 // Function to extract email addresses enclosed within angle brackets
 function extractEmails(dataArray) {

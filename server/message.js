@@ -1,8 +1,8 @@
 const { Vonage } = require("@vonage/server-sdk");
 
 const vonage = new Vonage({
-  apiKey: "1998d898",
-  apiSecret: "upEOSrCdV2LxaYga",
+  apiKey: "9a268c0c",
+  apiSecret: "B8nbLlmGWEreFVyA",
 });
 
 const from = "Vonage APIs";
