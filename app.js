@@ -5,6 +5,12 @@ const Imap = require("node-imap");
 const bodyParser = require("body-parser");
 const { EventEmitter } = require("events");
 const sendMessage = require("./server/message");
+const {
+  createUser,
+  getUsers,
+  updateUser,
+  deleteUser,
+} = require("./server/mongo");
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -218,7 +224,7 @@ app.get("/streamNewEmails", (req, res) => {
             emails[emails.length - 1].subject +
             "\nDATE: " +
             emails[emails.length - 1].date;
-          sendMessage(number, message);
+          // sendMessage(number, message);
         }, 5000); // 5000 milliseconds delay (adjust as needed)
       });
     });
@@ -240,7 +246,6 @@ app.get("/streamNewEmails", (req, res) => {
   });
 });
 
-
 function fetchTodaysEmails(callback) {
   openInbox((err, box) => {
     if (err) {
@@ -251,10 +256,16 @@ function fetchTodaysEmails(callback) {
     const formattedDate = getCurrentDate();
     console.log(formattedDate); // Output: "Apr 12, 2024"
 
-    imap.search(["UNSEEN", ["SINCE", formattedDate]], async (err, results) => {
+    imap.search(["ALL", ["SINCE", formattedDate]], async (err, results) => {
       if (err) {
         console.error("Error searching for today's emails:", err);
         return callback(err);
+      }
+
+      // Check if there are no results
+      if (results.length === 0) {
+        console.log("No emails found for today.");
+        return callback(null, []); // Return an empty array
       }
 
       const f = imap.fetch(results, {
@@ -308,3 +319,16 @@ app.get("/fetchTodaysEmails", (req, res) => {
     res.json(emails.reverse());
   });
 });
+
+// Example usage
+// createUser("john_doe", "john@example.com", "password123")
+//   .then((insert) => {
+//     console.log("Inserted user:", insert);
+//   })
+//   .catch((error) => {
+//     console.error("Error creating user:", error);
+//   });
+
+// getUsers();
+// updateUser("userId", { username: "new_username" });
+// deleteUser("userId");

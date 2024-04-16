@@ -120,6 +120,7 @@ function subscribeToNewEmails() {
   eventSource.addEventListener("message", function (event) {
     let newdata = JSON.parse(event.data);
     alertMail([newdata]);
+    fetchTodaysEmails();
     console.log("new email received:", JSON.parse(event.data));
     // You can perform further actions with the received email data here
   });
@@ -219,8 +220,8 @@ function filter(type) {
 // fetchContacts();
 fetchTodaysEmails();
 
-// document.addEventListener("DOMContentLoaded", () => {
-//   setTimeout(() => {
-//     subscribeToNewEmails();
-//   }, 5000);
-// });
+document.addEventListener("DOMContentLoaded", () => {
+  setTimeout(() => {
+    subscribeToNewEmails();
+  }, 5000);
+});

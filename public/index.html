@@ -252,6 +252,84 @@
               </tbody>
             </table>
           </section>
+          <section class="section alert_mail" index="2">
+            <div class="button_container">
+              <button class="button add_new">
+                <div class="section_icon">
+                  <i class="fas fa-plus-circle"></i>
+                </div>
+                <div class="text">Add Important Contact</div>
+              </button>
+              <button class="button export">
+                <div class="section_icon">
+                  <i class="fas fa-file"></i>
+                </div>
+                <div class="text">Export Contact</div>
+              </button>
+            </div>
+            <div class="form">
+              <form action="#" class="add_import_form">
+                <h1 class="title">Add Important Contact</h1>
+                <div class="input_field">
+                  <label>Name :</label>
+                  <input type="text" placeholder="eg:john doe" required />
+                </div>
+                <div class="input_field">
+                  <label>Email :</label>
+                  <input
+                    type="email"
+                    placeholder="eg:johndoe@email.com"
+                    required
+                  />
+                </div>
+                <div class="buttons_container">
+                  <button type="button" class="cancel">
+                    <i class="fas fa-times"></i> cancel
+                  </button>
+                  <button type="button" class="confirm">
+                    <i class="fas fa-plus"></i> add
+                  </button>
+                </div>
+              </form>
+            </div>
+            <table
+              class="all_mails_table contacts"
+              data-title="Important Emails"
+            >
+              <thead>
+                <th>
+                  <select name="" id="select">
+                    <option value="none" selected>None</option>
+                    <option value="all">All</option>
+                  </select>
+                </th>
+                <th>Sno</th>
+                <th>Name</th>
+                <th>Email</th>
+              </thead>
+              <tbody class="allEmails_display newEmails">
+                <tr>
+                  <td>
+                    <input type="checkbox" id="checkbox" class="checkbox" />
+                  </td>
+                  <td>1</td>
+                  <td>Vinoth Vinoth</td>
+                  <td>2021pecit223@gmail.com</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="checkbox" id="checkbox" class="checkbox" />
+                  </td>
+                  <td>2</td>
+                  <td>Vinoth S</td>
+                  <td>vinothg0618@gmail.com</td>
+                </tr>
+                <tr class="colspan">
+                  <td colspan="4">No Important emails Yet</td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
         </div>
       </main>
     </div>

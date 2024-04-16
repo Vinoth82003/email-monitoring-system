@@ -18,7 +18,7 @@ let count_display = document.querySelector(".head_right .total");
 let menu_btns = document.querySelectorAll("li .inner_menu");
 let all_sections = document.querySelectorAll("section.section");
 let currentTable;
-let currentIndex = 0;
+let currentIndex = 2;
 
 function menu_click(index) {
   menu_btns.forEach((menu) => {
@@ -50,6 +50,15 @@ function menu_click(index) {
         : "0" + count
       : "no count";
     let title = currentTable.getAttribute("data-title");
+    title_display.innerHTML = title ? title : "no title";
+  } else {
+    let count = null;
+    count_display.innerHTML = count
+      ? count >= 10
+        ? count
+        : "0" + count
+      : "no count";
+    let title = null;
     title_display.innerHTML = title ? title : "no title";
   }
 }
@@ -171,3 +180,16 @@ all_tag.forEach((tag) => {
     tag.classList.add("active");
   });
 });
+
+let form = document.querySelector(".form");
+let addButton = document.querySelector(".add_new");
+let cancelButton = document.querySelector(".cancel");
+
+addButton.addEventListener("click", () => {
+  form.classList.add("active");
+});
+
+cancelButton.addEventListener("click", () => {
+  form.classList.remove("active");
+});
+

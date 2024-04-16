@@ -370,6 +370,7 @@ section.section {
   margin-top: 10px;
   border-radius: 5px;
   overflow-x: scroll;
+  min-height: 70vh;
 }
 
 section.section.active {
@@ -464,3 +465,149 @@ main {
 }
 
 /* all contact design .. ! */
+
+/* important contatc css */
+
+.button_container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.button_container button {
+  padding: 10px 15px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  border: none;
+  background: #fff;
+  box-shadow: 3px 3px 5px #d6d6d6, inset 3px 3px 5px #d6d6d6;
+  cursor: pointer;
+  transition: 0.1s;
+}
+
+.button_container button:hover {
+  scale: 1.05;
+}
+
+.button_container button .section_icon {
+  font-size: 16px;
+  color: purple;
+}
+
+.add_import_form {
+  position: absolute;
+  background: #fff;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 3px 3px 5px #d6d6d6, inset 3px 3px 5px #d6d6d6;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  min-width: 300px;
+  width: 400px;
+  max-width: calc(100vw - 10px);
+  margin-top: 30px;
+  transition: 0.3s;
+  scale: 0;
+}
+
+@keyframes popup {
+  0% {
+    scale: 0;
+  }
+  25% {
+    scale: 1.2;
+  }
+  50% {
+    scale: 0.8;
+  }
+  75% {
+    scale: 1.2;
+  }
+  100% {
+    scale: 1;
+  }
+}
+
+.form.active .add_import_form {
+  animation: popup 0.4s ease-in forwards;
+}
+
+.title {
+  color: #696969;
+  font-size: 20px;
+  margin-top: 10px;
+}
+
+.form {
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  height: calc(100% - 20px);
+  width: calc(100% - 20px);
+  background: #fff;
+  top: 10px;
+  left: 10px;
+  position: absolute;
+  border-radius: 10px;
+  scale: 0;
+}
+
+.form.active {
+  scale: 1;
+}
+
+.input_field {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.input_field label {
+  padding: 10px;
+  font-family: sans-serif;
+}
+
+.input_field input {
+  padding: 10px;
+  /* border-radius: 5px; */
+  border: none;
+  border-bottom: 2px solid #5d88ff;
+  outline: none;
+}
+
+.buttons_container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0 10px;
+  margin-bottom: 10px;
+  margin-top: 5px;
+}
+
+.buttons_container button {
+  padding: 10px 15px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button.confirm {
+  border: 2px solid rgb(183, 252, 171);
+  background: rgb(238, 255, 238);
+  color: green;
+}
+
+button.cancel {
+  border: 2px solid rgb(252, 171, 171);
+  background: rgb(255, 238, 238);
+  color: red;
+}
+/* important contatc css */
