@@ -114,6 +114,9 @@ The project requires the following dependencies:
 - dotenv: ^16.4.5
 - express: ^4.19.2
 - node-imap: ^0.9.6
+- mongoose: ^8.3.2
+- https: ^1.0.0
+- @vonage/server-sdk: ^3.14.0
 
 Ensure these dependencies are installed before running the system.
 
