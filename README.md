@@ -80,6 +80,9 @@ Create a `.env` file in the root directory and add the necessary environment var
 ```
 EMAIL=your_email@example.com
 PASS=your_email_password
+VONAGE_API=api_key_from_Vonage
+VONAGE_SECRET=secret_key_from_Vonage
+MONGO_URL=connection_string/importantMails
 ```
 
 Replace `your_email@example.com` with your email address and `your_email_password` with your email app password.
