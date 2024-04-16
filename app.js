@@ -151,9 +151,8 @@ app.get("/streamNewEmails", (req, res) => {
   res.setHeader("Cache-Control", "no-cache");
   res.setHeader("Connection", "keep-alive");
 
-  // Listen for 'newEmail' events and send them to the client
-  // Listen for 'newEmail' events and send them to the client
-  const sendNewEmailEvent = () => {
+  // Function to send new email event
+  const sendNewEmailEvent = async () => {
     console.log("new email arrived");
     let todayDate = getCurrentDate();
     // Construct the search key to filter emails that arrived after the current moment
@@ -203,13 +202,15 @@ app.get("/streamNewEmails", (req, res) => {
 
       f.once("end", function () {
         console.log("Done fetching New email!");
-        // Send the latest email as SSE data
-        res.write(`data: ${JSON.stringify(emails[emails.length - 1])}\n\n`);
-        // Optionally, you can send an event name
-        // res.write("event: newEmail\n");
-        let number = "919384460843";
-        let message = "New Email\n\n" + emails[emails.length - 1].from;
-        sendMessage(number, message);
+        // Send the latest email as SSE data after a delay
+        setTimeout(() => {
+          res.write(`data: ${JSON.stringify(emails[emails.length - 1])}\n\n`);
+          // Optionally, you can send an event name
+          // res.write("event: newEmail\n");
+          let number = "919384460843";
+          let message = "New Email\n\n" + emails[emails.length - 1].from;
+          sendMessage(number, message);
+        }, 5000); // 5000 milliseconds delay (adjust as needed)
       });
     });
   };
