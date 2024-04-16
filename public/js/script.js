@@ -41,7 +41,7 @@ function displayAllContacts(emails) {
         <td>${index + 1}</td>
         <td class="name">${mail.name}</td>
         <td class="email">${mail.email}</td>
-        <td class="type">${mail.type}</td>`;
+        `;
       tbody.appendChild(tr);
     });
   } else {
@@ -153,7 +153,6 @@ function fetchTodaysEmails() {
     .catch((error) => console.error("Error:", error));
 }
 
-
 // Function to extract email addresses enclosed within angle brackets
 function extractEmails(dataArray) {
   const extractedEmails = [];
@@ -220,8 +219,8 @@ function filter(type) {
 // fetchContacts();
 fetchTodaysEmails();
 
-document.addEventListener("DOMContentLoaded", () => {
-  setTimeout(() => {
-    subscribeToNewEmails();
-  }, 5000);
-});
+// document.addEventListener("DOMContentLoaded", () => {
+//   setTimeout(() => {
+//     subscribeToNewEmails();
+//   }, 5000);
+// });

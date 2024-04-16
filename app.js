@@ -143,6 +143,9 @@ imap.connect();
 // Serve static files from the "public" directory
 app.use(express.static(path.join(__dirname, "public")));
 
+// Define keepAlive in the outer scope
+let keepAlive;
+
 // SSE endpoint to stream new emails to the client
 app.get("/streamNewEmails", (req, res) => {
   console.log("reached..!");
@@ -208,7 +211,13 @@ app.get("/streamNewEmails", (req, res) => {
           // Optionally, you can send an event name
           // res.write("event: newEmail\n");
           let number = "919384460843";
-          let message = "New Email\n\n" + emails[emails.length - 1].from;
+          let message =
+            "New Email\n\nFROM: " +
+            emails[emails.length - 1].from +
+            "\nSUBJECT: " +
+            emails[emails.length - 1].subject +
+            "\nDATE: " +
+            emails[emails.length - 1].date;
           sendMessage(number, message);
         }, 5000); // 5000 milliseconds delay (adjust as needed)
       });
@@ -218,12 +227,19 @@ app.get("/streamNewEmails", (req, res) => {
   // Attach event listener for new email events
   emitter.on("newEmail", sendNewEmailEvent);
 
+  // Start the keep-alive interval
+  keepAlive = setInterval(() => {
+    res.write(":keep-alive\n\n");
+  }, 20000); // Send every 20 seconds
+
   // Cleanup on client disconnect
   req.on("close", () => {
     emitter.off("newEmail", sendNewEmailEvent);
-    clearInterval(keepAlive);
+    if (keepAlive) clearInterval(keepAlive);
+    else console.log("no Keepalive");
   });
 });
+
 
 function fetchTodaysEmails(callback) {
   openInbox((err, box) => {
