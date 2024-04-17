@@ -253,6 +253,30 @@ function fetchTodaysEmails() {
     .catch((error) => console.error("Error:", error));
 }
 
+function removeImportant(id) {
+  const confirmMsg = confirm("are you sure..?");
+  if (confirmMsg) {
+    fetch(`/removeImportant/${id}`)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((user) => {
+        console.log("Removed users:", user);
+        // Do something with the inserted user data, if needed
+        displayImportEmails(user);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        // Handle error gracefully, display error message to user, etc.
+      });
+  } else {
+    console.log("Canceled");
+  }
+}
+
 function fetchImportantmails() {
   fetch(`/getImportantMails`)
     .then((response) => {

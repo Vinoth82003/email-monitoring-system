@@ -80,7 +80,12 @@ async function deleteUser(userId) {
   try {
     const user = await User.findByIdAndDelete(userId);
     console.log("User deleted successfully:", user);
-    return user;
+    if (user) {
+      const newDatas = await User.find();
+      return newDatas;
+    } else {
+      return user;
+    }
   } catch (error) {
     console.error("Error deleting user:", error);
     throw error;

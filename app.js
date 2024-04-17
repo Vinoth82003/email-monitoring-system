@@ -372,6 +372,17 @@ app.get("/editImportant/:id", async (req, res) => {
   }
 });
 
+app.get("/removeImportant/:id", async (req, res) => {
+  const id = req.params.id;
+  try {
+    const user = await deleteUser(id);
+    res.json(user); // Send the inserted user data as JSON response
+  } catch (error) {
+    console.error("Error creating user:", error);
+    res.status(500).json({ error: "Error creating user" }); // Handle error
+  }
+});
+
 // Example usage
 // { username, email }
 // createUser("john_doe", "john@example.com", "password123")
