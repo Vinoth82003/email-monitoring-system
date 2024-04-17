@@ -335,6 +335,22 @@ app.get("/addImportantMail/:name/:email", async (req, res) => {
   }
 });
 
+app.get("/updateUser/:id/:name/:email", async (req, res) => {
+  const username = req.params.name;
+  const id = req.params.id;
+  const email = req.params.email;
+  let newData = { username, email };
+  console.log(newData);
+  try {
+    const user = await updateUser(id, newData);
+    console.log("Update user:", user);
+    res.json(user); // Send the inserted user data as JSON response
+  } catch (error) {
+    console.error("Error creating user:", error);
+    res.status(500).json({ error: "Error creating user" }); // Handle error
+  }
+});
+
 app.get("/getImportantMails", async (req, res) => {
   try {
     const user = await getUsers();
@@ -357,6 +373,7 @@ app.get("/editImportant/:id", async (req, res) => {
 });
 
 // Example usage
+// { username, email }
 // createUser("john_doe", "john@example.com", "password123")
 //   .then((insert) => {
 //     console.log("Inserted user:", insert);

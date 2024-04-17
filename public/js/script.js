@@ -5,36 +5,35 @@ let uniqueFrom = [];
 let uniqueTo = [];
 let uniqueAll = [];
 
-// function updateUser(id) {
-//   fetch(`/updateUser/${id}`)
-//     .then((response) => {
-//       if (!response.ok) {
-//         throw new Error("Network response was not ok");
-//       }
-//       return response.json();
-//     })
-//     .then((user) => {
-//       console.log("Inserted user:", user);
-//       // Do something with the inserted user data, if needed
-//       document.querySelector(".form").classList.add("active");
-//       let add_button = document
-//         .querySelector(".form")
-//         .querySelector("button.confirm");
-//       // displayImportEmails([user]);
-//       let name = document.getElementById("nameinput");
-//       let email = document.getElementById("emailinput");
-//       let hidden = document.querySelector(".hidden");
-//       name.value = user.username;
-//       email.value = user.email;
-//       hidden.value = user._id;
-//       add_button.textContent = "Update";
-//       add_button.setAttribute("onclick", `updateUser('${user._id}')`);
-//     })
-//     .catch((error) => {
-//       console.error("Error:", error);
-//       // Handle error gracefully, display error message to user, etc.
-//     });
-// }
+function updateUser(userid) {
+  let name = document.getElementById("nameinput").value.trim();
+  let email = document.getElementById("emailinput").value.trim();
+  console.log(name, email);
+  // let id = document.getElementById(".hidden").innerHTML.trim();
+  fetch(`/updateUser/${userid}/${name}/${email}`)
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      return response.json();
+    })
+    .then((user) => {
+      console.log("Inserted user:", user);
+      // Do something with the inserted user data, if needed
+      document.querySelector(".form").classList.remove("active");
+      let add_button = document
+        .querySelector(".form")
+        .querySelector("button.confirm");
+      // displayImportEmails([user]);
+      add_button.textContent = "+ Add";
+      add_button.setAttribute("onclick", `addImportantMail()`);
+      displayImportEmails(user);
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+      // Handle error gracefully, display error message to user, etc.
+    });
+}
 
 function editImportant(id) {
   fetch(`/editImportant/${id}`)

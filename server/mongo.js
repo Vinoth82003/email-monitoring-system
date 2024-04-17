@@ -64,7 +64,12 @@ async function updateUser(userId, newData) {
   try {
     const user = await User.findByIdAndUpdate(userId, newData, { new: true });
     console.log("User updated successfully:", user);
-    return user;
+    if (user) {
+      const newDatas = await User.find();
+      return newDatas;
+    } else {
+      return user;
+    }
   } catch (error) {
     console.error("Error updating user:", error);
     throw error;
