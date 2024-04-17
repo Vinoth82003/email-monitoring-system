@@ -49,6 +49,17 @@ async function getUsers() {
   }
 }
 
+async function getUserByID(id) {
+  try {
+    const users = await User.findById(id);
+    console.log("User by id:", users);
+    return users;
+  } catch (error) {
+    console.error("Error fetching users:", error);
+    throw error;
+  }
+}
+
 async function updateUser(userId, newData) {
   try {
     const user = await User.findByIdAndUpdate(userId, newData, { new: true });
@@ -76,4 +87,5 @@ module.exports = {
   getUsers,
   updateUser,
   deleteUser,
+  getUserByID,
 };

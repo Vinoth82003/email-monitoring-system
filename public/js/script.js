@@ -5,6 +5,68 @@ let uniqueFrom = [];
 let uniqueTo = [];
 let uniqueAll = [];
 
+// function updateUser(id) {
+//   fetch(`/updateUser/${id}`)
+//     .then((response) => {
+//       if (!response.ok) {
+//         throw new Error("Network response was not ok");
+//       }
+//       return response.json();
+//     })
+//     .then((user) => {
+//       console.log("Inserted user:", user);
+//       // Do something with the inserted user data, if needed
+//       document.querySelector(".form").classList.add("active");
+//       let add_button = document
+//         .querySelector(".form")
+//         .querySelector("button.confirm");
+//       // displayImportEmails([user]);
+//       let name = document.getElementById("nameinput");
+//       let email = document.getElementById("emailinput");
+//       let hidden = document.querySelector(".hidden");
+//       name.value = user.username;
+//       email.value = user.email;
+//       hidden.value = user._id;
+//       add_button.textContent = "Update";
+//       add_button.setAttribute("onclick", `updateUser('${user._id}')`);
+//     })
+//     .catch((error) => {
+//       console.error("Error:", error);
+//       // Handle error gracefully, display error message to user, etc.
+//     });
+// }
+
+function editImportant(id) {
+  fetch(`/editImportant/${id}`)
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      return response.json();
+    })
+    .then((user) => {
+      console.log("Inserted user:", user);
+      // Do something with the inserted user data, if needed
+      document.querySelector(".form").classList.add("active");
+      let add_button = document
+        .querySelector(".form")
+        .querySelector("button.confirm");
+      // displayImportEmails([user]);
+      let name = document.getElementById("nameinput");
+      let email = document.getElementById("emailinput");
+      let hidden = document.querySelector(".hidden");
+      name.value = user.username;
+      email.value = user.email;
+      hidden.value = user._id;
+      add_button.textContent = "Update";
+      add_button.setAttribute("onclick", `updateUser('${user._id}')`);
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+      // Handle error gracefully, display error message to user, etc.
+    });
+}
+
 function alertMail(allEmails) {
   console.log(allEmails);
   let bellCount = document.querySelector(".bellCount");
@@ -124,11 +186,22 @@ function displayImportEmails(allEmails) {
   allEmails.map((email, index) => {
     let tr = document.createElement("tr");
     tr.innerHTML = `
-          
             <td>${index + 1}</td>
             <td class="name">${email.username}</td>
             <td class="email">${email.email}</td>
             <td class="date"> ${email.date}</td>
+            <td class="date"> 
+              <div class="buttons">
+                <button class="edit" onclick="editImportant('${email._id}')">
+                  <i class="fas fa-eye"></i> edit
+                </button>
+                <button class="remove" onclick="removeImportant('${
+                  email._id
+                }')">
+                  <i class="fas fa-trash-alt"></i> remove
+                </button>
+              </div>
+            </td>
           `;
     tablebody.appendChild(tr);
   });
@@ -181,9 +254,29 @@ function fetchTodaysEmails() {
     .catch((error) => console.error("Error:", error));
 }
 
+function fetchImportantmails() {
+  fetch(`/getImportantMails`)
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      return response.json();
+    })
+    .then((user) => {
+      console.log("Inserted user:", user);
+      // Do something with the inserted user data, if needed
+      document.querySelector(".form").classList.remove("active");
+      displayImportEmails(user);
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+      // Handle error gracefully, display error message to user, etc.
+    });
+}
+
 function addImportantMail() {
-  let name = document.getElementById("nameinput").value.trim().toLowerCase();
-  let email = document.getElementById("emailinput").value.trim().toLowerCase();
+  let name = document.getElementById("nameinput").value.trim();
+  let email = document.getElementById("emailinput").value.trim();
   console.log(name, email);
   // Check if both name and email are not empty
   if (name && email) {

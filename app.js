@@ -10,6 +10,7 @@ const {
   getUsers,
   updateUser,
   deleteUser,
+  getUserByID,
 } = require("./server/mongo");
 
 const app = express();
@@ -327,6 +328,27 @@ app.get("/addImportantMail/:name/:email", async (req, res) => {
   try {
     const user = await createUser(name, email);
     console.log("Inserted user:", user);
+    res.json(user); // Send the inserted user data as JSON response
+  } catch (error) {
+    console.error("Error creating user:", error);
+    res.status(500).json({ error: "Error creating user" }); // Handle error
+  }
+});
+
+app.get("/getImportantMails", async (req, res) => {
+  try {
+    const user = await getUsers();
+    res.json(user); // Send the inserted user data as JSON response
+  } catch (error) {
+    console.error("Error creating user:", error);
+    res.status(500).json({ error: "Error creating user" }); // Handle error
+  }
+});
+
+app.get("/editImportant/:id", async (req, res) => {
+  const id = req.params.id;
+  try {
+    const user = await getUserByID(id);
     res.json(user); // Send the inserted user data as JSON response
   } catch (error) {
     console.error("Error creating user:", error);
