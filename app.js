@@ -320,6 +320,20 @@ app.get("/fetchTodaysEmails", (req, res) => {
   });
 });
 
+app.get("/addImportantMail/:name/:email", async (req, res) => {
+  const name = req.params.name;
+  const email = req.params.email;
+
+  try {
+    const user = await createUser(name, email);
+    console.log("Inserted user:", user);
+    res.json(user); // Send the inserted user data as JSON response
+  } catch (error) {
+    console.error("Error creating user:", error);
+    res.status(500).json({ error: "Error creating user" }); // Handle error
+  }
+});
+
 // Example usage
 // createUser("john_doe", "john@example.com", "password123")
 //   .then((insert) => {

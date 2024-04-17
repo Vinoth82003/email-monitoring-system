@@ -272,13 +272,19 @@
                 <h1 class="title">Add Important Contact</h1>
                 <div class="input_field">
                   <label>Name :</label>
-                  <input type="text" placeholder="eg:john doe" required />
+                  <input
+                    type="text"
+                    placeholder="eg:john doe"
+                    id="nameinput"
+                    required
+                  />
                 </div>
                 <div class="input_field">
                   <label>Email :</label>
                   <input
                     type="email"
                     placeholder="eg:johndoe@email.com"
+                    id="emailinput"
                     required
                   />
                 </div>
@@ -286,14 +292,18 @@
                   <button type="button" class="cancel">
                     <i class="fas fa-times"></i> cancel
                   </button>
-                  <button type="button" class="confirm">
+                  <button
+                    type="button"
+                    class="confirm"
+                    onclick="addImportantMail()"
+                  >
                     <i class="fas fa-plus"></i> add
                   </button>
                 </div>
               </form>
             </div>
             <table
-              class="all_mails_table contacts"
+              class="all_mails_table importantemail"
               data-title="Important Emails"
             >
               <thead>
@@ -306,6 +316,7 @@
                 <th>Sno</th>
                 <th>Name</th>
                 <th>Email</th>
+                <th>date</th>
               </thead>
               <tbody class="allEmails_display newEmails">
                 <tr>
@@ -315,6 +326,7 @@
                   <td>1</td>
                   <td>Vinoth Vinoth</td>
                   <td>2021pecit223@gmail.com</td>
+                  <td>11/11/1111 11:11am</td>
                 </tr>
                 <tr>
                   <td>
@@ -323,6 +335,7 @@
                   <td>2</td>
                   <td>Vinoth S</td>
                   <td>vinothg0618@gmail.com</td>
+                  <td>11/11/1111 11:11am</td>
                 </tr>
                 <tr class="colspan">
                   <td colspan="4">No Important emails Yet</td>

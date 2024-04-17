@@ -19,16 +19,16 @@ db.once("open", () => {
 const userSchema = new mongoose.Schema({
   username: String,
   email: String,
-  password: String,
+  date: { type: Date, default: Date.now },
   // Add more fields as needed
 });
 
 const User = mongoose.model("User", userSchema);
 
 // CRUD Operations
-async function createUser(username, email, password) {
+async function createUser(username, email) {
   try {
-    const user = new User({ username, email, password });
+    const user = new User({ username, email });
     await user.save();
     console.log("User created successfully:", user);
     return user;

@@ -113,6 +113,32 @@ function displayTodayEmails(allEmails) {
       : "0" + tablebody.childElementCount;
 }
 
+function displayImportEmails(allEmails) {
+  // console.log(emails);
+  let tablebody = document.querySelector(
+    ".all_mails_table.importantemail tbody"
+  );
+  tablebody.innerHTML = "";
+  console.log(allEmails.length);
+  console.log(allEmails);
+  allEmails.map((email, index) => {
+    let tr = document.createElement("tr");
+    tr.innerHTML = `
+          
+            <td>${index + 1}</td>
+            <td class="name">${email.username}</td>
+            <td class="email">${email.email}</td>
+            <td class="date"> ${email.date}</td>
+          `;
+    tablebody.appendChild(tr);
+  });
+
+  document.querySelector(".total").innerHTML =
+    tablebody.childElementCount >= 10
+      ? tablebody.childElementCount
+      : "0" + tablebody.childElementCount;
+}
+
 function subscribeToNewEmails() {
   console.log("func called");
   const eventSource = new EventSource("/streamNewEmails");
@@ -142,6 +168,7 @@ function fetchTodaysEmails() {
   fetch("/fetchTodaysEmails")
     .then((response) => response.json())
     .then((emails) => {
+      console.log(emails);
       if (emails.length > 0) {
         displayTodayEmails(emails);
       } else {
@@ -152,6 +179,35 @@ function fetchTodaysEmails() {
       }
     })
     .catch((error) => console.error("Error:", error));
+}
+
+function addImportantMail() {
+  let name = document.getElementById("nameinput").value.trim().toLowerCase();
+  let email = document.getElementById("emailinput").value.trim().toLowerCase();
+  console.log(name, email);
+  // Check if both name and email are not empty
+  if (name && email) {
+    fetch(`/addImportantMail/${name}/${email}`)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((user) => {
+        console.log("Inserted user:", user);
+        // Do something with the inserted user data, if needed
+        document.querySelector(".form").classList.remove("active");
+        displayImportEmails([user]);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        // Handle error gracefully, display error message to user, etc.
+      });
+  } else {
+    console.error("Name and email cannot be empty");
+    // Handle the case where name or email is empty
+  }
 }
 
 // Function to extract email addresses enclosed within angle brackets
