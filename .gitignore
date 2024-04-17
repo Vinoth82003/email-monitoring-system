@@ -2,5 +2,7 @@
 node_modules/
 
 #removing .env
-
 .env
+
+#removing vercel.json
+vercel.json
