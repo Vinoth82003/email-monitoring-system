@@ -60,7 +60,6 @@ To clone and use the Email Monitoring System, follow these steps:
 ```git
 git clone https://github.com/Vinoth82003/email-monitoring-system.git
 ```
-````
 
 2. Navigate to the project directory:
 
