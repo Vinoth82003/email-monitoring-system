@@ -480,16 +480,3 @@ app.post("/sendEmail", upload.single("attachment"), async (req, res) => {
   });
 });
 
-// Example usage
-// { username, email }
-// createUser("john_doe", "john@example.com", "password123")
-//   .then((insert) => {
-//     console.log("Inserted user:", insert);
-//   })
-//   .catch((error) => {
-//     console.error("Error creating user:", error);
-//   });
-
-// getUsersEmail();
-// updateUser("userId", { username: "new_username" });
-// deleteUser("userId");
