@@ -90,7 +90,7 @@ Replace `your_email@example.com` with your email address and `your_email_passwor
 5. Start the server:
 
 ```node
-npm start
+node app
 ```
 
 The system will be accessible at the specified port.
@@ -105,7 +105,6 @@ The Email Monitoring System is built using the following technologies:
 - Node.js
 - Node-IMAP
 - MongoDB
-- React
 
 ## Requirements
 
