@@ -193,3 +193,32 @@ cancelButton.addEventListener("click", () => {
   form.classList.remove("active");
 });
 
+function downloadExcel() {
+  const table = document.getElementById("myTable");
+  const wb = XLSX.utils.table_to_book(table, { sheet: "Sheet1" });
+  const wbout = XLSX.write(wb, { bookType: "xlsx", type: "binary" });
+
+  function s2ab(s) {
+    const buf = new ArrayBuffer(s.length - 1);
+    const view = new Uint8Array(buf);
+    for (let i = 0; i < s.length - 1; i++) view[i] = s.charCodeAt(i) & 0xff;
+    return buf;
+  }
+
+  const blob = new Blob([s2ab(wbout)], { type: "application/octet-stream" });
+  const fileName = "table_data.xlsx";
+  if (navigator.msSaveBlob) {
+    navigator.msSaveBlob(blob, fileName);
+  } else {
+    const link = document.createElement("a");
+    if (link.download !== undefined) {
+      const url = URL.createObjectURL(blob);
+      link.setAttribute("href", url);
+      link.setAttribute("download", fileName);
+      link.style.visibility = "hidden";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+  }
+}

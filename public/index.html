@@ -260,7 +260,7 @@
                 </div>
                 <div class="text">Add Important Contact</div>
               </button>
-              <button class="button export">
+              <button class="button export" onclick="downloadExcel()">
                 <div class="section_icon">
                   <i class="fas fa-file"></i>
                 </div>
@@ -306,6 +306,7 @@
             <table
               class="all_mails_table importantemail"
               data-title="Important Emails"
+              id="myTable"
             >
               <thead>
                 <th>Sno</th>
@@ -356,6 +357,7 @@
         </div>
       </main>
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.4/xlsx.full.min.js"></script>
     <script src="js/frontend.js"></script>
     <script src="js/script.js"></script>
   </body>

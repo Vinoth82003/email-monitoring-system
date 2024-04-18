@@ -204,6 +204,11 @@ function displayImportEmails(allEmails) {
           `;
     tablebody.appendChild(tr);
   });
+  // let tr = document.createElement("tr");
+  allEmails.length > 0
+    ? console.log("lenght > 0")
+    : ((tablebody.innerHTML = `<tr><td colspan="4">No Important mails Yet</td></tr>`),
+      console.log("lenght < 0"));
 
   document.querySelector(".total").innerHTML =
     tablebody.childElementCount >= 10
@@ -314,7 +319,7 @@ function addImportantMail() {
         console.log("Inserted user:", user);
         // Do something with the inserted user data, if needed
         document.querySelector(".form").classList.remove("active");
-        displayImportEmails([user]);
+        displayImportEmails(user);
       })
       .catch((error) => {
         console.error("Error:", error);

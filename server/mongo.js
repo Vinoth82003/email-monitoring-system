@@ -31,7 +31,12 @@ async function createUser(username, email) {
     const user = new User({ username, email });
     await user.save();
     console.log("User created successfully:", user);
-    return user;
+    if (user) {
+      const newDatas = await User.find();
+      return newDatas;
+    } else {
+      return user;
+    }
   } catch (error) {
     console.error("Error creating user:", error);
     throw error;
@@ -54,6 +59,18 @@ async function getUserByID(id) {
     const users = await User.findById(id);
     console.log("User by id:", users);
     return users;
+  } catch (error) {
+    console.error("Error fetching users:", error);
+    throw error;
+  }
+}
+
+async function getUsersEmail() {
+  try {
+    const users = await User.find();
+    const emailList = users.map((user) => user.email);
+    console.log("Emails:", emailList);
+    return emailList;
   } catch (error) {
     console.error("Error fetching users:", error);
     throw error;
@@ -98,4 +115,5 @@ module.exports = {
   updateUser,
   deleteUser,
   getUserByID,
+  getUsersEmail,
 };

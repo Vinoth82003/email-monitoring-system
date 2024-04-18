@@ -10,6 +10,7 @@ const {
   getUsers,
   updateUser,
   deleteUser,
+  getUsersEmail,
   getUserByID,
 } = require("./server/mongo");
 
@@ -51,6 +52,29 @@ function getCurrentDate() {
   const day = currentDate.getDate();
   const year = currentDate.getFullYear();
   return `${month} ${day}, ${year}`;
+}
+// extract email and name from the "from"
+function extractEmails(dataArray) {
+  const extractedEmails = [];
+  // for (const item of dataArray) {
+  let extract = {};
+  const emailMatch = /[\w.-]+@[\w.-]+\.[\w_-]+/.exec(dataArray);
+  if (emailMatch) {
+    const email = emailMatch[0];
+    let name = dataArray
+      .toString()
+      .replace(email, "")
+      .replace(/<|>/g, "")
+      .trim();
+    // Replace double quotes in the name
+    name = name.replace(/"/g, "");
+    extract.email = email;
+    extract.name = name || "N/A";
+    extractedEmails.push(extract);
+  } else {
+    console.log("Data : ", dataArray);
+  }
+  return extractedEmails;
 }
 
 // Function to fetch contacts from messages
@@ -213,10 +237,24 @@ app.get("/streamNewEmails", (req, res) => {
       f.once("end", function () {
         console.log("Done fetching New email!");
         // Send the latest email as SSE data after a delay
-        setTimeout(() => {
+        setTimeout(async () => {
           res.write(`data: ${JSON.stringify(emails[emails.length - 1])}\n\n`);
           // Optionally, you can send an event name
           // res.write("event: newEmail\n");
+          let importEmails;
+          try {
+            importEmails = await getUsersEmail();
+          } catch (error) {
+            console.error("Error getting user:", error);
+          }
+          let from = emails[emails.length - 1].from;
+          let fromEmail = extractEmails(from);
+          console.log(from);
+          console.log("New email arrived: ", fromEmail[0].email);
+          console.log("important Emails List");
+          console.log(importEmails);
+          const isImportant = importEmails.includes(fromEmail[0].email);
+
           let number = "919384460843";
           let message =
             "New Email\n\nFROM: " +
@@ -225,6 +263,9 @@ app.get("/streamNewEmails", (req, res) => {
             emails[emails.length - 1].subject +
             "\nDATE: " +
             emails[emails.length - 1].date;
+          isImportant
+            ? sendMessage(number, message)
+            : console.log("no important mail");
           // sendMessage(number, message);
         }, 5000); // 5000 milliseconds delay (adjust as needed)
       });
@@ -393,6 +434,6 @@ app.get("/removeImportant/:id", async (req, res) => {
 //     console.error("Error creating user:", error);
 //   });
 
-// getUsers();
+// getUsersEmail();
 // updateUser("userId", { username: "new_username" });
 // deleteUser("userId");
