@@ -263,6 +263,7 @@ app.get("/streamNewEmails", (req, res) => {
             emails[emails.length - 1].subject +
             "\nDATE: " +
             emails[emails.length - 1].date;
+          +"\nReply to :" + fromEmail[0].email + "\n\nBy SEMS: Thank You...!";
           isImportant
             ? sendMessage(number, message)
             : console.log("no important mail");
