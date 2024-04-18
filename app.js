@@ -13,6 +13,8 @@ const {
   getUsersEmail,
   getUserByID,
 } = require("./server/mongo");
+const multer = require("multer"); // For handling file uploads
+const nodemailer = require("nodemailer"); // For sending emails
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -423,6 +425,59 @@ app.get("/removeImportant/:id", async (req, res) => {
     console.error("Error creating user:", error);
     res.status(500).json({ error: "Error creating user" }); // Handle error
   }
+});
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "uploads/"); // Save files to the "uploads" directory
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname); // Keep the original file name
+  },
+});
+
+const upload = multer({ storage: storage });
+
+// POST route to handle form submission with attachment
+app.post("/sendEmail", upload.single("attachment"), async (req, res) => {
+  // Extract form data from request body
+  const { to, cc, bcc, subject, message } = req.body;
+
+  // Create reusable transporter object using SMTP transport
+  let transporter = nodemailer.createTransport({
+    service: "Gmail",
+    auth: {
+      user: process.env.EMAIL,
+      pass: process.env.PASS,
+    },
+  });
+
+  // Setup email data with unicode symbols
+  let mailOptions = {
+    from: process.env.EMAIL, // sender address
+    to: to,
+    cc: cc,
+    bcc: bcc,
+    subject: subject,
+    text: message,
+    attachments: [
+      {
+        filename: req.file.originalname, // Use the original file name
+        path: req.file.path, // Use the path of the uploaded file
+      },
+    ],
+  };
+
+  // Send mail with defined transport object
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      console.error("Error sending email:", error);
+      res.status(500).send("Error sending email");
+    } else {
+      console.log("Email sent:", info.response);
+      res.status(200).send("Email sent successfully");
+    }
+  });
 });
 
 // Example usage

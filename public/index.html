@@ -116,8 +116,8 @@
           </li>
           <li class="side_menu">
             <div class="inner_menu" index="3">
-              <div class="icon"><i class="fas fa-user-plus"></i></div>
-              <div class="text">add important mails</div>
+              <div class="icon"><i class="fas fa-paper-plane"></i></div>
+              <div class="text">send e-mails</div>
             </div>
           </li>
           <li class="side_menu">
@@ -353,6 +353,76 @@
                 </tr>
               </tbody>
             </table>
+          </section>
+          <section class="section send_mail" index="3">
+            <form id="emailForm" enctype="multipart/form-data">
+              <div class="message_box">
+                <div class="left">
+                  <div class="input_field">
+                    <label for="to">to: <span class="red">*</span></label>
+                    <input
+                      type="email"
+                      id="to"
+                      name="to"
+                      placeholder="eg: johndoe@example.com"
+                      required
+                    />
+                  </div>
+                  <div class="input_field">
+                    <label for="cc">cc:</label>
+                    <input
+                      type="email"
+                      id="cc"
+                      name="cc"
+                      placeholder="eg: johndoe@example.com"
+                    />
+                  </div>
+                  <div class="input_field">
+                    <label for="bcc">Bcc:</label>
+                    <input
+                      type="email"
+                      id="bcc"
+                      name="bcc"
+                      placeholder="eg: johndoe@example.com"
+                    />
+                  </div>
+                  <div class="input_field">
+                    <label for="subject"
+                      >subject: <span class="red">*</span></label
+                    >
+                    <input
+                      type="text"
+                      id="subject"
+                      name="subject"
+                      placeholder="your email subject here.."
+                      required
+                    />
+                  </div>
+                </div>
+                <div class="right">
+                  <div class="input_field">
+                    <label for="message"
+                      >message: <span class="red">*</span></label
+                    >
+                    <textarea
+                      id="message"
+                      name="message"
+                      cols="30"
+                      rows="10"
+                      placeholder="your message here..!"
+                      required
+                    ></textarea>
+                  </div>
+                  <div class="input_field">
+                    <label for="attachment">Attachment:</label>
+                    <input type="file" id="attachment" name="attachment" />
+                  </div>
+                  <div class="input_field">
+                    <button type="submit">Send</button>
+                  </div>
+                </div>
+              </div>
+            </form>
           </section>
         </div>
       </main>

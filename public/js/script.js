@@ -397,6 +397,33 @@ function filter(type) {
 // fetchContacts();
 fetchTodaysEmails();
 
+document
+  .getElementById("emailForm")
+  .addEventListener("submit", async function (event) {
+    event.preventDefault();
+
+    const formData = new FormData(this);
+
+    try {
+      const response = await fetch("/sendEmail", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (response.ok) {
+        alert("Email sent successfully!");
+        // Optionally, clear the form after successful submission
+        this.reset();
+      } else {
+        const errorMessage = await response.text();
+        throw new Error(errorMessage);
+      }
+    } catch (error) {
+      console.error("Error sending email:", error.message);
+      alert("Error sending email: " + error.message);
+    }
+  });
+
 document.addEventListener("DOMContentLoaded", () => {
   setTimeout(() => {
     subscribeToNewEmails();

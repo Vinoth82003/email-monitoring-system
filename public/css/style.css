@@ -644,3 +644,120 @@ button.cancel {
   color: red;
 }
 /* important contatc css */
+/* send emails css */
+.high {
+  font-family: sans-serif;
+  color: #5b5b5b;
+  font-weight: 600;
+  padding: 10px;
+  border-bottom: 2px solid #a8a8a8;
+}
+
+section .message_box {
+  display: flex;
+  width: 100%;
+}
+
+.left,
+.right {
+  width: 50%;
+}
+
+.red {
+  color: red;
+}
+
+.left label,
+.right label {
+  padding: 5px 10px;
+  background-color: #ecf4ff;
+  border-radius: 5px;
+  max-width: 110px;
+  display: flex;
+  min-width: 40px;
+  box-shadow: 3px 3px 5px #baccfd, inset 3px 3px 5px #bacdff;
+}
+
+.left input,
+.right textarea {
+  margin-top: 5px;
+}
+
+.right textarea {
+  width: 100%;
+  height: 100%;
+  border: 2px solid #99b4ff;
+  border-radius: 5px;
+  outline: none;
+  padding: 10px;
+}
+
+.options {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  padding: 10px;
+  gap: 10px;
+}
+
+.send,
+.attachfile {
+  padding: 10px 15px;
+  background: #5d88ff;
+  color: #fff;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+}
+
+/* send emails css */
+
+.input_field label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.input_field input[type="file"] {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+/* Style for the file input button */
+.input_field input[type="file"]::-webkit-file-upload-button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.input_field input[type="file"]::-webkit-file-upload-button:hover {
+  background-color: #0056b3;
+}
+
+/* Hide the default file input button */
+.input_field input[type="file"]::-webkit-file-upload-button {
+  visibility: hidden;
+}
+
+/* Style for the custom file input button */
+.input_field input[type="file"]::before {
+  content: "Choose File";
+  display: inline-block;
+  padding: 10px 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  cursor: pointer;
+}
+
+/* Style for the custom file input button on hover */
+.input_field input[type="file"]::before:hover {
+  background-color: #e0e0e0;
+}
