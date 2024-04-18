@@ -60,6 +60,7 @@ To clone and use the Email Monitoring System, follow these steps:
 ```git
 git clone https://github.com/Vinoth82003/email-monitoring-system.git
 ```
+````
 
 2. Navigate to the project directory:
 
@@ -70,7 +71,7 @@ cd email-monitoring-system
 3. Install dependencies:
 
 ```node
-npm install dotenv express node-imap
+npm install dotenv express node-imap @vonage/server-sdk mongoose https
 ```
 
 4. Set up environment variables:
@@ -85,7 +86,7 @@ VONAGE_SECRET=secret_key_from_Vonage
 MONGO_URL=connection_string/importantMails
 ```
 
-Replace `your_email@example.com` with your email address and `your_email_password` with your email app password.
+Replace `your_email@example.com` with your email address and `your_email_password` with your email app password. Obtain the Vonage API key and secret from your Vonage account and replace `api_key_from_Vonage` and `secret_key_from_Vonage` respectively. Replace `connection_string/importantMails` with the connection string to your MongoDB database where important emails will be stored.
 
 5. Start the server:
 
@@ -111,12 +112,21 @@ The Email Monitoring System is built using the following technologies:
 
 The project requires the following dependencies:
 
-- dotenv: ^16.4.5
-- express: ^4.19.2
-- node-imap: ^0.9.6
-- mongoose: ^8.3.2
-- https: ^1.0.0
-- @vonage/server-sdk: ^3.14.0
+```json
+{
+  "dependencies": {
+    "@vonage/server-sdk": "^3.14.0",
+    "axios": "^1.6.8",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "https": "^1.0.0",
+    "mongoose": "^8.3.2",
+    "multer": "^1.4.5-lts.1",
+    "node-imap": "^0.9.6",
+    "nodemailer": "^6.9.13"
+  }
+}
+```
 
 Ensure these dependencies are installed before running the system.
 
