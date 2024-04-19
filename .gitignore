@@ -5,4 +5,4 @@ node_modules/
 .env
 
 #removing vercel.json
-vercel.json
+# vercel.json
