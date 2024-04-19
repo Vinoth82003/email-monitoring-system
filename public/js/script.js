@@ -4,8 +4,9 @@ let all_to_emails = [];
 let uniqueFrom = [];
 let uniqueTo = [];
 let uniqueAll = [];
-
+let loader = document.querySelector(".loader");
 function updateUser(userid) {
+  loader.classList.add("active");
   let name = document.getElementById("nameinput").value.trim();
   let email = document.getElementById("emailinput").value.trim();
   console.log(name, email);
@@ -28,6 +29,7 @@ function updateUser(userid) {
       add_button.textContent = "+ Add";
       add_button.setAttribute("onclick", `addImportantMail()`);
       displayImportEmails(user);
+      loader.classList.remove("loader");
     })
     .catch((error) => {
       console.error("Error:", error);
@@ -36,6 +38,7 @@ function updateUser(userid) {
 }
 
 function editImportant(id) {
+  loader.classList.add("active");
   fetch(`/editImportant/${id}`)
     .then((response) => {
       if (!response.ok) {
@@ -59,6 +62,7 @@ function editImportant(id) {
       hidden.value = user._id;
       add_button.textContent = "Update";
       add_button.setAttribute("onclick", `updateUser('${user._id}')`);
+      loader.classList.remove("active");
     })
     .catch((error) => {
       console.error("Error:", error);
@@ -115,6 +119,7 @@ function displayAllContacts(emails) {
 }
 
 function fetchContacts() {
+  loader.classList.add("active");
   fetch("/fetchContacts")
     .then((response) => response.json())
     .then((contacts) => {
@@ -137,6 +142,7 @@ function fetchContacts() {
 
       document.querySelector(".contactEmail").innerHTML = "";
       displayAllContacts(uniqueAll);
+      loader.classList.remove("active");
     })
     .catch((error) => console.error("Error:", error));
 }
@@ -242,6 +248,7 @@ function displayNewEmail(emailDetails) {
 }
 
 function fetchTodaysEmails() {
+  loader.classList.add("active");
   fetch("/fetchTodaysEmails")
     .then((response) => response.json())
     .then((emails) => {
@@ -254,6 +261,7 @@ function fetchTodaysEmails() {
           <td colspan="5" class="no_td">No emails on today</td>
         </tr>`;
       }
+      loader.classList.remove("active");
     })
     .catch((error) => console.error("Error:", error));
 }
@@ -261,6 +269,7 @@ function fetchTodaysEmails() {
 function removeImportant(id) {
   const confirmMsg = confirm("are you sure..?");
   if (confirmMsg) {
+    loader.classList.add("active");
     fetch(`/removeImportant/${id}`)
       .then((response) => {
         if (!response.ok) {
@@ -277,12 +286,14 @@ function removeImportant(id) {
         console.error("Error:", error);
         // Handle error gracefully, display error message to user, etc.
       });
+    loader.classList.remove("active");
   } else {
     console.log("Canceled");
   }
 }
 
 function fetchImportantmails() {
+  loader.classList.add("active");
   fetch(`/getImportantMails`)
     .then((response) => {
       if (!response.ok) {
@@ -300,6 +311,7 @@ function fetchImportantmails() {
       console.error("Error:", error);
       // Handle error gracefully, display error message to user, etc.
     });
+  loader.classList.remove("active");
 }
 
 function addImportantMail() {
@@ -308,6 +320,7 @@ function addImportantMail() {
   console.log(name, email);
   // Check if both name and email are not empty
   if (name && email) {
+    loader.classList.add("active");
     fetch(`/addImportantMail/${name}/${email}`)
       .then((response) => {
         if (!response.ok) {
@@ -325,6 +338,7 @@ function addImportantMail() {
         console.error("Error:", error);
         // Handle error gracefully, display error message to user, etc.
       });
+    loader.classList.remove("active");
   } else {
     console.error("Name and email cannot be empty");
     // Handle the case where name or email is empty
@@ -405,15 +419,18 @@ document
     const formData = new FormData(this);
 
     try {
+      loader.classList.add("active");
       const response = await fetch("/sendEmail", {
         method: "POST",
         body: formData,
       });
 
       if (response.ok) {
-        alert("Email sent successfully!");
+        // alert("Email sent successfully!");
+        console.log("email send");
         // Optionally, clear the form after successful submission
         this.reset();
+        loader.classList.remove("active");
       } else {
         const errorMessage = await response.text();
         throw new Error(errorMessage);
