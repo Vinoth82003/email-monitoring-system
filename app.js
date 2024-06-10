@@ -242,7 +242,7 @@ app.get("/streamNewEmails", (req, res) => {
         setTimeout(async () => {
           res.write(`data: ${JSON.stringify(emails[emails.length - 1])}\n\n`);
           // Optionally, you can send an event name
-          // res.write("event: newEmail\n");
+          res.write("event: newEmail\n");
           let importEmails;
           try {
             importEmails = await getUsersEmail();
