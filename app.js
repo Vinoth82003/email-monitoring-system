@@ -20,6 +20,9 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
+// logging email
+console.log(process.env.EMAIL);
+
 const imap = new Imap({
   user: process.env.EMAIL,
   password: process.env.PASS,
@@ -479,4 +482,3 @@ app.post("/sendEmail", upload.single("attachment"), async (req, res) => {
     }
   });
 });
-
